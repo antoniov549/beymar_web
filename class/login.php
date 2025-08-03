@@ -45,10 +45,9 @@ class Login
         }
 
         $stmt = $this->db->prepare("
-            SELECT user_password_hash, user_id, firstname, lastname, user_name, user_email, 
-                   nivel, area, role, subarea, foto, status
-            FROM users_v2
-            WHERE (user_name = ? OR user_email = ?) AND status = '0'
+            SELECT usuario_id, user_name, nombre, apellido, correo, contrasena, rol_id, estado, created_at, updated_at
+            FROM usuarios
+            WHERE (user_name = ? OR correo = ?) AND estado = '1'
         ");
 
         if ($stmt === false) {
@@ -67,23 +66,19 @@ class Login
 
         $user = $result->fetch_object();
 
-        if (!password_verify($password, $user->user_password_hash)) {
+        if (!password_verify($password, $user->contrasena)) {
             $this->errors[] = "Usuario y/o contraseña no coinciden.";
             return;
         }
 
         $_SESSION = array_merge($_SESSION, [
-            'user_id'       => $user->user_id,
-            'firstname'     => $user->firstname,
-            'lastname'      => $user->lastname,
+            'usuario_id'       => $user->usuario_id,
             'user_name'     => $user->user_name,
-            'user_email'    => $user->user_email,
-            'nivel'         => $user->nivel,
-            'area'          => $user->area,
-            'role'          => $user->role,
-            'subarea'       => $user->subarea,
-            'foto_perfil'   => $user->foto,
-            'status'        => $user->status,
+            'nombre'      => $user->nombre,
+            'apellido'     => $user->apellido,
+            'correo'    => $user->correo,
+            'rol_id'         => $user->rol_id,
+            'estado'          => $user->estado,
             'user_login_status' => 1
         ]);
 

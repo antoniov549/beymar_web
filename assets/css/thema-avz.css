@@ -1,3 +1,11 @@
 .pull-left {
     padding-left: 75%;
 }
+
+table.dataTable thead .sorting {
+    padding-right: 20px;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    padding: 1em;
+}

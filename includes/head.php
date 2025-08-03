@@ -30,4 +30,23 @@
 <script src="../vendor/bootstrap-5.3.0/js/bootstrap.min.js"></script>
 
 
+
+<!------ DATA TABLE ------------>
+<link rel="stylesheet" href="../vendor/dataTable/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="../vendor/dataTable/buttons/css/buttons.dataTables.min.css">
+<script src="../vendor/dataTable/js/jquery.dataTables.min.js"></script>
+<script src="../vendor/dataTable/buttons/js/dataTables.buttons.min.js"></script>
+<script src="../vendor/dataTable/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="../vendor/dataTable/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="../vendor/dataTable/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+<script src="../vendor/dataTable/buttons/2.2.2/js/buttons.html5.min.js"></script>
+<!-- librerias para descarcar en distintos formatos desde una data table costruida -->
+<script src="../vendor/dataTable/ajax/libs/xlsx.full.min.js"></script>
+<script src="../vendor/dataTable/ajax/libs/jspdf.umd.min.js"></script>
+
+<!-- tabla cruceta -->
+<link rel="stylesheet" href="../vendor/tabla_cruceta/css/tabla_cruceta.css" />
+<script src="../vendor/tabla_cruceta/js/main.js"></script>
+
+<!-- estilos extras -->
 <link href="../assets/css/thema-avz.css" rel="stylesheet" />
