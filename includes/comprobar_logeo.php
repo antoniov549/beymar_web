@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 // Verificamos si la persona se había autenticado o no
 if (!(isset($_SESSION['user_login_status']) && $_SESSION['user_login_status'] == 1)) {
     // No está autenticado, redireccionamos a la autenticación
-      echo "<script language='JavaScript'>location.href='pages/sign-in.php';</script>";
+      echo "<script language='JavaScript'>location.href='/pages/sign-in.php';</script>";
     return;
 }
 

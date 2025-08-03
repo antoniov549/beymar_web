@@ -9,3 +9,129 @@ table.dataTable thead .sorting {
 .dataTables_wrapper .dataTables_filter {
     padding: 1em;
 }
+
+
+
+.table-data-feature {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -moz-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.table-data-feature .item {
+    display: block;
+    height: 30px;
+    width: 30px;
+    position: relative;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    background: #e5e5e5;
+    margin-right: 5px;
+}
+
+.table-data-feature .item:last-child {
+    margin-right: 0;
+}
+
+.table-data-feature .item i {
+    font-size: 20px;
+    color: #808080;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.noti-wrap {
+    display: flex;
+    align-items: center;
+    padding: 1px;
+}
+
+.noti__item {
+    position: relative;
+    margin-right: 35px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.noti__item:hover i {
+    color: #999;
+}
+
+.noti__item i {
+    font-size: 30px;
+    color: #a9b3c9;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    vertical-align: middle;
+}
+
+.noti-wrap .noti__item:last-child {
+    margin-right: 50px;
+}
+
+.noti__item .quantity {
+    position: absolute;
+    display: inline-block;
+    top: -4px;
+    right: -7px;
+    height: 15px;
+    width: 15px;
+    line-height: 15px;
+    text-align: center;
+    background: #ff4b5a;
+    color: #fff;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    font-size: 12px;
+}
+
+
+@media (max-width: 1200px) {
+    .noti-wrap .noti__item:last-child {
+        margin-right: 30px;
+    }
+}
+
+@media (max-width: 991px) {
+    .noti-wrap .noti__item:last-child {
+        margin-right: 0;
+    }
+}
+
+
+@media (max-width: 1200px) {
+    .noti__item {
+        margin-right: 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    .noti__item {
+        margin-right: 20px;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .noti__item i {
+        font-size: 24px;
+    }
+}
+

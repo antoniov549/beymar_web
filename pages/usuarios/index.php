@@ -123,9 +123,9 @@ function inicializarEventosTabla(contenedor) {
   // Eliminar eventos anteriores y asignar nuevo click
   $datos.off('click').on('click', function () {
     const datos = $(this).data();
-    $.post('modal/detalle_tabla_wip_meta.php', datos, function (response) {
-      $('#modal_xl_full_first .modal-content').html(response);
-      $('#modal_xl_full_first').modal('show');
+    $.post('usuarios/modal/detalle_usuarios.php', datos, function (response) {
+      $('#modal-lg .modal-content').html(response);
+      $('#modal-lg').modal('show');
     });
   });
 

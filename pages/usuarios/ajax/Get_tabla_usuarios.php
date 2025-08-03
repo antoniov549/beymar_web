@@ -23,7 +23,7 @@ $num_filas = mysqli_num_rows($result);
 				];
 				$contador=0;
 				foreach ($titulos as $titulo) {
-					echo '<th class="column100 column'.$contador.'" data-column="column'.$contador.'">'.$titulo.'</th>';
+					echo '<th class="column100 column'.$contador.'" data-column="column'.$contador.'" >'.$titulo.'</th>';
 					$contador++;
 				}
 			?>		
@@ -40,25 +40,31 @@ $num_filas = mysqli_num_rows($result);
 						    		case 'Opciones':
 						    			echo '
 						    			 <td class="column100 column13" data-column="column13">
-							                <div class="table-data-feature noti__item js-item-menu">
+							                <div class="table-data-feature noti-wrap  ">
 							                    <button 
 							                        class="item datoInterno" 
 							                        data-toggle="tooltip" 
 							                        data-placement="top" 
-							                        title="Historico TRD"
-							                       
-							                        data-trd_id=""
-							                        data-his_id=""
-							                        data-serial=""
-							                        data-opcion="cantidad_trd"
+							                        title="Cambiar Contraseña"
+							                        data-user="'.$result_row['usuario_id'].'"
+							                        data-option="editar"
 							                    >
-							                        <i class="zmdi zmdi-view-list-alt"></i>
-							                        <span class="quantity">1</span>
+							                        <i class="fa fa-user-edit"></i>
 							                    </button>
 
-							                  
+							                     <button 
+							                        class="item datoInterno" 
+							                        data-toggle="tooltip" 
+							                        data-placement="top" 
+							                        title="Eliminar Usuario"
+							                        data-user="'.$result_row['usuario_id'].'"
+							                        data-option="eliminar"
+							                    >
+							                        <i class="fa fa-delete-left"></i>
+							                    </button>
 
 							                </div>
+							                
 							            </td>
 
 						    			';
@@ -80,10 +86,3 @@ $num_filas = mysqli_num_rows($result);
 	</table>
 </div>
 
-
-<script type="text/javascript">
-$('#loaderContainer').show();
-$(document).ready(function(){
-	$('#loaderContainer').hide();
-});
-</script>

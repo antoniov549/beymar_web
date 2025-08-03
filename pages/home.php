@@ -3,6 +3,7 @@
   <head>
     <?php 
       include('../includes/head.php');
+      include('../includes/comprobar_logeo.php');
     ?>
   </head>
   <!--  -->

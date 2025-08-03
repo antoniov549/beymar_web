@@ -9,44 +9,30 @@ include('../../includes/comprobar_logeo.php');
 include_once('../../class/Cls_usuarios.php');
 $Cls_usuarios = new Cls_usuarios();
 
-
-////////////////////////
-$replace= array(" ", "'", "''");
-$replace2= array("'", "''", "\"" );
-
 /// option
-$option = isset($_REQUEST["option"]) ? $_REQUEST["option"] : null;
-$option = str_replace($replace2,"", trim($option));
+$option = isset($_REQUEST['option']) ? trim((string)$_REQUEST['option']) : '';
 
 // nivel_user
-$nivel_user = isset($_REQUEST["nivel_user"]) ? $_REQUEST["nivel_user"] : null;
-$nivel_user = str_replace($replace2,"", trim($nivel_user));
+$nivel_user = isset($_REQUEST['nivel_user']) ? trim((string)$_REQUEST['nivel_user']) : '';
 
 // firstname
-$firstname = isset($_REQUEST["firstname"]) ? $_REQUEST["firstname"] : null;
-$firstname = str_replace($replace2,"", trim($firstname));
-
+$firstname = isset($_REQUEST['firstname']) ? trim((string)$_REQUEST['firstname']) : '';
 
 // lastname
-$lastname = isset($_REQUEST["lastname"]) ? $_REQUEST["lastname"] : null;
-$lastname = str_replace($replace2,"", trim($lastname));
-
+$lastname = isset($_REQUEST['lastname']) ? trim((string)$_REQUEST['lastname']) : '';
 
 // user_name
-$user_name = isset($_REQUEST["user_name"]) ? $_REQUEST["user_name"] : null;
-$user_name = str_replace($replace2,"", trim($user_name));
+$user_name = isset($_REQUEST['user_name']) ? trim((string)$_REQUEST['user_name']) : '';
 
 // user_email
-$user_email = isset($_REQUEST["user_email"]) ? $_REQUEST["user_email"] : null;
-$user_email = str_replace($replace2,"", trim($user_email));
+$user_email = isset($_REQUEST['user_email']) ? trim((string)$_REQUEST['user_email']) : '';
 
 // user_password_new
-$user_password_new = isset($_REQUEST["user_password_new"]) ? $_REQUEST["user_password_new"] : null;
-$user_password_new =  trim($user_password_new);
+$user_password_new = isset($_REQUEST['user_password_new']) ? trim((string)$_REQUEST['user_password_new']) : '';
 
 // user_password_repeat
-$user_password_repeat = isset($_REQUEST["user_password_repeat"]) ? $_REQUEST["user_password_repeat"] : null;
-$user_password_repeat =  trim($user_password_repeat);
+$user_password_repeat = isset($_REQUEST['user_password_repeat']) ? trim((string)$_REQUEST['user_password_repeat']) : '';
+
 
 // var_dump($_REQUEST);
 // var_dump($_FILES);
