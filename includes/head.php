@@ -16,3 +16,18 @@
     <script src="../assets/js/popperjs.js"></script>
     <!-- Main Styling -->
     <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+    <link href="../assets/css/loaders-avz.css" rel="stylesheet" />
+
+
+
+<!-- Bootstrap CSS -->
+<link href="../vendor/bootstrap-5.3.0/css/bootstrap.min.css" rel="stylesheet" media="all">
+
+<!-- JavaScript -->
+<script src="../vendor/jquery-3.2.1.min.js"></script>
+<script src="../vendor/bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/bootstrap-5.3.0/js/popper.min.js"></script>
+<script src="../vendor/bootstrap-5.3.0/js/bootstrap.min.js"></script>
+
+
+<link href="../assets/css/thema-avz.css" rel="stylesheet" />

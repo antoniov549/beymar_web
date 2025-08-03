@@ -73,3 +73,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
      
     </aside>
+
+
+    <!------- LOADER --------------------->
+<div id="loaderContainer" class="loader-container ">
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="spinner"></div>
+    </div>
+</div>
+<!------- LOADER --------------------->
