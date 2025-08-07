@@ -19,10 +19,14 @@ $num_filas = mysqli_num_rows($result);
 			<tr class="row100 head">
 			<?php 
 				$titulos = [ 
-						 "user_name", "nombre", "apellido", "correo", "rol_id", "estado", "created_at", "updated_at", "Opciones"
+						 "user_name", "nombre", "apellido", "correo", "rol_nombre", "estado_usuario", "created_at", "updated_at", "Opciones"
+				];
+
+				$titulos_traductor = [ 
+						 "Usuario", "Nombre", "Apellido", "Correo", "Función", "estado", "Creado", "Actulizado", "Opciones"
 				];
 				$contador=0;
-				foreach ($titulos as $titulo) {
+				foreach ($titulos_traductor as $titulo) {
 					echo '<th class="column100 column'.$contador.'" data-column="column'.$contador.'" >'.$titulo.'</th>';
 					$contador++;
 				}

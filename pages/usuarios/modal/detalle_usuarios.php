@@ -154,7 +154,7 @@ $(document).ready(function () {
 	        return; // No continúa si no pasa la validación
 	    }
 	    // 
-	    console.log($('#nivel_user').val());
+	    // console.log($('#nivel_user').val());
 	    // 
 	    if ($('#nivel_user').val() === null) {
 		  alert('Debes seleccionar un nivel de usuario');
@@ -174,6 +174,34 @@ $(document).ready(function () {
 		     $('#password_error').addClass('d-none');
 		}
 		$('input[name="option"]').val('editar');
+
+	    // Confirmación del usuario
+	    let respuesta_confirmacion_envio = confirm("SE ENVIARAN LOS DATOS!!");
+	    if (respuesta_confirmacion_envio) {
+	        var formData = new FormData(form);
+	        EnviarDatos(formData);
+	    }
+	});
+
+
+  $('.borrar').on('click', function () {
+		// 
+	    const form = document.getElementById("form-add_users");
+	    // Valida los campos requeridos del formulario
+	    if (!form.checkValidity()) {
+	        form.reportValidity(); // Muestra mensajes de error nativos del navegador
+	        return; // No continúa si no pasa la validación
+	    }
+	    // 
+	    // console.log($('#nivel_user').val());
+	    // 
+	    if ($('#nivel_user').val() === null) {
+		  alert('Debes seleccionar un nivel de usuario');
+		  $('#nivel_user').focus();
+		  return;
+		}
+		
+		$('input[name="option"]').val('borrar');
 
 	    // Confirmación del usuario
 	    let respuesta_confirmacion_envio = confirm("SE ENVIARAN LOS DATOS!!");

@@ -45,8 +45,10 @@ class Login
         }
 
         $stmt = $this->db->prepare("
-            SELECT usuario_id, user_name, nombre, apellido, correo, contrasena, rol_id, estado, created_at, updated_at
-            FROM usuarios
+            SELECT 
+            usr.usuario_id, usr.user_name, usr.nombre, usr.apellido, usr.correo, usr.contrasena, usr.rol_id, usr.estado, usr.created_at, usr.updated_at, rol.nombre as role
+            FROM usuarios as usr
+            INNER JOIN roles as rol ON usr.rol_id = rol.rol_id
             WHERE (user_name = ? OR correo = ?) AND estado = '1'
         ");
 
@@ -78,6 +80,7 @@ class Login
             'apellido'     => $user->apellido,
             'correo'    => $user->correo,
             'rol_id'         => $user->rol_id,
+            'role'         => $user->role,
             'estado'          => $user->estado,
             'user_login_status' => 1
         ]);

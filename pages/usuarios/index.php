@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 include_once('../class/Cls_usuarios.php');
 $Cls_usuarios = new Cls_usuarios();
-$Cls_usuarios->checkRole(['2', '1']);
+$Cls_usuarios->checkRole(['2', '1','4']);
 ?>
 
 

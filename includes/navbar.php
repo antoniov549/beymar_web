@@ -22,12 +22,67 @@
             </div>
             <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
               
-              <li class="flex items-center">
-                <a href="../pages/sign-in.php?logout" class="block px-0 py-2 text-sm font-semibold text-white transition-all ease-nav-brand">
-                  <i class="fa fa-user sm:mr-1"></i>
-                  <span class="hidden sm:inline">Desconectar</span>
-                </a>
-              </li>
+               <!--  -->
+              <!-- VENTANA FLOTANTE PARA LOS DATOS DE PERFIL -->
+              <div class="account-wrap">
+                <div class="account-item js-item-menu">
+                  <div class="image rounded-circle">
+                    <img src="../assets/img/profile-01.png" alt="<?php echo $user_name; ?>" />
+                  </div>
+                  <div class="content">
+                    <a class="js-acc-btn" href="#"><?php echo $user_name; ?></a>
+                  </div>
+                  <div class="account-dropdown js-dropdown">
+                    <div class="info clearfix">
+                      <div class="image rounded-circle">
+                        <a href="/meta/mis_datos/">
+                          <img src="../assets/img/profile-01.png" alt="<?php echo $user_name; ?>" />
+                        </a>
+                      </div>
+                      <div class="content">
+                        <h5 class="name">
+                          <a href="/meta/mis_datos/"><?php echo $user_name; ?></a>
+                        </h5>
+                        <span class="email"><?php echo $role; ?></span>
+                      </div>
+                    </div>
+                    <div class="account-dropdown__body">
+                      <div class="account-dropdown__item">
+                        <a href="../pages/profile.html">
+                          <i class="zmdi zmdi-account"></i>Cuenta
+                        </a>
+                      </div>
+                      <?php if ($nivel == 1): ?>
+                     <!--  <div class="account-dropdown__item">
+                        <a href="/meta/mis_datos/">
+                          <i class="zmdi zmdi-settings"></i>Configuración
+                        </a>
+                      </div>
+                      <div class="account-dropdown__item">
+                        <a href="/meta/users/">
+                          <i class="zmdi zmdi-accounts"></i>Administración Usuarios
+                        </a>
+                      </div>
+                      <div class="account-dropdown__item">
+                        <a href="/meta/notificacion_/">
+                          <i class="zmdi zmdi-notifications"></i>Notificaciones
+                        </a>
+                      </div> -->
+                      <?php endif; ?>
+                    </div>
+                    <div class="account-dropdown__footer">
+                      <a href="../pages/sign-in.php?logout">
+                        <i class="zmdi zmdi-power"></i>Cerrar Sesión
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--  -->
+
+
+
+
               <li class="flex items-center pl-4 xl:hidden">
                 <a href="javascript:;" class="block p-0 text-sm text-white transition-all ease-nav-brand" sidenav-trigger>
                   <div class="w-4.5 overflow-hidden">

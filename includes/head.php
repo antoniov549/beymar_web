@@ -50,3 +50,4 @@
 
 <!-- estilos extras -->
 <link href="../assets/css/thema-avz.css" rel="stylesheet" />
+<script src="../assets/js/main_avs.js"></script>

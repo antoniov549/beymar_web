@@ -8,10 +8,12 @@
   </head>
   <!--  -->
   <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
-    <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+     <div class="absolute bg-y-50 w-full top-0 bg-[url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg')] min-h-75">
+      <span class="absolute top-0 left-0 w-full h-full bg-blue-500 opacity-60"></span>
+    </div>
     <!-- sidenav  -->
     <?php 
-     $page='Add User';
+     $page='Usuarios';
       include('../includes/sidenav.php');
     ?>
     <!-- end sidenav -->

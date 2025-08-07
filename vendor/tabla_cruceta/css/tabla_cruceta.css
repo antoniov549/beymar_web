@@ -411,18 +411,21 @@ color: #fff;
      -moz-border-radius: 2em 0em 0em 0em;
   -webkit-border-radius: 2em 0em 0em 0em;
           border-radius: 2em 0em 0em 0em;
+    padding: .9em;
 }
 
 .table100.avs thead tr:last-child th:last-child {
      -moz-border-radius: 0em 2em 0em 0em;
   -webkit-border-radius: 0em 2em 0em 0em;
           border-radius: 0em 2em 0em 0em;
+          padding: .9em;
 }
 
 .table100.avs thead tr:last-child th.rotate:last-child {
      -moz-border-radius: 0em 0em 0em 2em;
   -webkit-border-radius: 0em 0em 0em 2em;
           border-radius: 0em 0em 0em 2em;
+          padding: .9em;
 }
 
 

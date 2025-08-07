@@ -51,6 +51,28 @@ $user_password_repeat = isset($_REQUEST['user_password_repeat']) ? trim((string)
 					$respuesta = $Cls_usuarios->Set_new_usuarios($user_name, $firstname, $lastname, $user_email, $user_password_new , $nivel_user);
 					echo $respuesta['message'];
 				break;
+
+			case 'editar':
+
+					// usuario_id
+					$usuario_id = isset($_REQUEST['usuario_id']) ? trim((string)$_REQUEST['usuario_id']) : '';
+					// user_password_new
+					$user_password_new = isset($_REQUEST['user_password_new']) ? trim((string)$_REQUEST['user_password_new']) : '';
+			
+
+					$respuesta = $Cls_usuarios->Update_password($usuario_id, $user_password_new);
+					echo $respuesta['message'];
+				break;
+
+			case 'borrar':
+
+					// usuario_id
+					$usuario_id = isset($_REQUEST['usuario_id']) ? trim((string)$_REQUEST['usuario_id']) : '';
+					$nuevo_estado='0';
+
+					$respuesta = $Cls_usuarios->Update_estado($usuario_id, $nuevo_estado);
+					echo $respuesta['message'];
+				break;
 			
 			default:
 				echo '	<div class="alert alert-warning" role="alert">

@@ -146,24 +146,50 @@ public function Set_new_usuarios($user_name, $nombre, $apellido, $correo, $contr
 // 
 
 // 
-public function Update_password_estado($user_id, $nueva_contrasena, $nuevo_estado) {
+public function Update_password($user_id, $nueva_contrasena) {
     try {
         // Sanitizar entradas
         $user_id          = (int)$user_id;
         $nueva_contrasena = mysqli_real_escape_string($this->cnx_db, strip_tags($nueva_contrasena, ENT_QUOTES));
-        $nuevo_estado     = (int)$nuevo_estado;
+        
 
         // Hash de la nueva contraseña
         $contrasena_hash = password_hash($nueva_contrasena, PASSWORD_DEFAULT);
 
-        // Actualizar contraseña y estado
-        $query = "UPDATE usuarios SET contrasena = ?, estado = ?, updated_at = NOW() WHERE usuario_id = ?";
+        // Actualizar contraseña
+        $query = "UPDATE usuarios SET contrasena = ?, updated_at = NOW() WHERE usuario_id = ?";
         $stmt = $this->cnx_db->prepare($query);
-        $stmt->bind_param("sii", $contrasena_hash, $nuevo_estado, $user_id);
+        $stmt->bind_param("si", $contrasena_hash, $user_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
-            return ['success' => true, 'message' => '<div class="alert alert-success" role="alert">Contraseña y estado actualizados correctamente.</div>'];
+            return ['success' => true, 'message' => '<div class="alert alert-success" role="alert">Contraseña actualizada correctamente.</div>'];
+        } else {
+            return ['success' => false, 'message' => '<div class="alert alert-warning" role="alert">No se realizó ningún cambio.</div>'];
+        }
+
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => '<div class="alert alert-danger" role="alert">'.$e->getMessage().'</div>'];
+    }
+}
+
+//
+
+// 
+public function Update_estado($user_id, $nuevo_estado) {
+    try {
+        // Sanitizar entradas
+        $user_id          = (int)$user_id;
+        $nuevo_estado     = (int)$nuevo_estado;
+
+        // Actualizar contraseña y estado
+        $query = "UPDATE usuarios SET  estado = ?, updated_at = NOW() WHERE usuario_id = ?";
+        $stmt = $this->cnx_db->prepare($query);
+        $stmt->bind_param("ii",  $nuevo_estado, $user_id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return ['success' => true, 'message' => '<div class="alert alert-success" role="alert">Usuario Eliminado correctamente.</div>'];
         } else {
             return ['success' => false, 'message' => '<div class="alert alert-warning" role="alert">No se realizó ningún cambio.</div>'];
         }
@@ -184,10 +210,12 @@ public function Get_tabla_usuarios() {
         // $product_Family = mysqli_real_escape_string($this->cnx_db, strip_tags($product_Family, ENT_QUOTES));
         
         $filtro = [];
+        $filtro[]="( estado = '1')";
         $where = count($filtro) ? 'WHERE ' . implode(' AND ', $filtro) : '';
         /////////////////////////////////////
-         $campos_select='*';
+         $campos_select='usr.*,rol.nombre as rol_nombre,  IF(estado = 1, "activo", "borrado" ) AS estado_usuario';
         $tabla_principal = ' usuarios  as usr ';
+        $inner_roles='INNER JOIN  roles as rol ON usr.rol_id = rol.rol_id';
       
         $group = '';
         $order = 'ORDER BY usuario_id';
@@ -195,7 +223,7 @@ public function Get_tabla_usuarios() {
         $consulta = "
             SELECT $campos_select
             FROM $tabla_principal
-          
+            $inner_roles
             $where
             $group
             $order
