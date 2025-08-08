@@ -1433,7 +1433,7 @@ section {
 }
 
 .account-item > .content > a {
-    color: var(--bs-emphasis-color);
+    color: var(--bs-light-border-subtle);
     text-transform: capitalize;
     font-weight: 500;
     text-decoration: none;
@@ -1449,7 +1449,7 @@ font-weight: 900; /* Necesario para los íconos sólidos */
 }
 
 .account-item > .content > a:hover {
-    color:var(--bs-emphasis-color);
+    color:var(--bs-light-border-subtle);
 }
 
 .account-dropdown {

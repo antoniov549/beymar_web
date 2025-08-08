@@ -101,62 +101,54 @@ error_reporting(E_ALL);
 
 					<div class="form-group m-b-10 col-6">
 						<label for="user_password_new" class=" control-label">Contraseña</label>
-						<div class="">
-						  <input 
-						  	type="password" 
-						  	class="form-control" 
-						  	id="user_password_new" 
-						  	name="user_password_new" 
-						  	placeholder="Contraseña" 
-						  	pattern=".{6,}" title="Contraseña ( min . 6 caracteres)" required>
-						</div>
-				  	</div>
+							<div class="">
+							  <input 
+							  	type="password" 
+							  	class="form-control" 
+							  	id="user_password_new" 
+							  	name="user_password_new" 
+							  	placeholder="Contraseña" 
+							  	pattern=".{6,}" title="Contraseña ( min . 6 caracteres)" required>
+							</div>
+				  </div>
 				  	<!--  -->
-				  	<div class="form-group m-b-10 col-6">
+				  <div class="form-group m-b-10 col-6">
 						<label for="user_password_repeat" class=" control-label">Repite contraseña</label>
-						<div class="">
-						  <input 
-						  	type="password" 
-						  	class="form-control" 
-						  	id="user_password_repeat" 
-						  	name="user_password_repeat" 
-						  	placeholder="Repite contraseña" 
-						   	pattern=".{6,}" title="Contraseña ( min . 6 caracteres)" required>
-						</div>
-				  	</div>
+							<div class="">
+							  <input 
+							  	type="password" 
+							  	class="form-control" 
+							  	id="user_password_repeat" 
+							  	name="user_password_repeat" 
+							  	placeholder="Repite contraseña" 
+							   	pattern=".{6,}" title="Contraseña ( min . 6 caracteres)" required>
+							</div>
+				  </div>
 
 				</div>
 				
 				<input type="hidden" name="option">
 
-				<div id="documentacion" hidden>
-					<!-- <hr> -->
-					<!-- <center>
-						<h5 class="center">Documentos Requeridos</h5>
-					</center> -->
-					<!-- Acta Constitutiva -->
-					<!-- <div class="mb-3">
-					  <label for="acta_constitutiva" class="form-label">Acta Constitutiva (PDF)</label>
-					  <input type="file" class="form-control" name="acta_constitutiva" id="acta_constitutiva" accept=".pdf" >
-					</div> -->
-
-					<!-- Permiso de ASUR -->
-					<<!-- div class="mb-3">
-					  <label for="permiso_asur" class="form-label">Permiso de ASUR (PDF)</label>
-					  <input type="file" class="form-control" name="permiso_asur" id="permiso_asur" accept=".pdf" >
-					</div> -->
-
-					<!-- Placas Federales -->
-					<!-- <div class="mb-3">
-					  <label for="placas_federales" class="form-label">Placas Federales (PDF o Imagen)</label>
-					  <input type="file" class="form-control" name="placas_federales" id="placas_federales" accept=".pdf,.jpg,.jpeg,.png" >
+				<div id="conductor" hidden>
+					<hr>
+					<center>
+						<h5 class="center">Conductor</h5>
+					</center>
+					<div class="row">
+							<div class="form-group m-b-10 col-6">
+								<label for="licencia" class=" control-label">Numero de Licencia:</label>
+								<div class="">
+								  <input type="text" class="form-control" id="licencia" name="licencia" placeholder="licencia" >
+								</div>
+							</div>
+							<!--  -->
+							<div class="form-group m-b-10 col-6">
+								<label for="telefono" class=" control-label">Numero de telefono:</label>
+								<div class="">
+								  <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="telefono" >
+								</div>
+							</div>
 					</div>
- 					-->
-					<!-- Seguro de Viajes -->
-					<!-- <div class="mb-3">
-					  <label for="seguro_viajes" class="form-label">Seguro de Viajes (PDF o Imagen)</label>
-					  <input type="file" class="form-control" name="seguro_viajes" id="seguro_viajes" accept=".pdf,.jpg,.jpeg,.png" >
-					</div> -->
 
 				</div>
 				
@@ -179,21 +171,21 @@ $(document).ready(function() {
 
 	Imprime_roles('nivel_user');
 
-	// $(document).on('change', '#nivel_user', function(event) { 
-	// 	var nivel_user=$("#nivel_user option:selected").val();
-	// 		console.log(nivel_user);
+	$(document).on('change', '#nivel_user', function(event) { 
+		var nivel_user=$("#nivel_user option:selected").val();
+			console.log(nivel_user);
 
-	// 	switch (nivel_user) {
-	// 		case '3':
-	// 			requerir_archivos(true);
-	// 		break;
+		switch (nivel_user) {
+			case '3':
+				requerir_campos(true);
+			break;
 
-	// 		default:
-	// 			requerir_archivos(false);
-	// 		break;
-	// 	}
+			default:
+				requerir_campos(false);
+			break;
+		}
 
-	// });
+	});
 // 
 $('.guardar').on('click', function () {
 		// 
@@ -235,16 +227,16 @@ $('.guardar').on('click', function () {
 ///////////////////////////////////////////
 });
 // 
-function requerir_archivos(boleano) {
+function requerir_campos(boleano) {
 	console.log(boleano);
     // Mostrar u ocultar el div dependiendo del valor opuesto
-    $('#documentacion').attr('hidden', !boleano);
+    $('#conductor').attr('hidden', !boleano);
 
     // Hacer los campos requeridos si boleano es true
-    $('#acta_constitutiva').attr('required', boleano);
-    $('#permiso_asur').attr('required', boleano);
+    $('#licencia').attr('required', boleano);
+    $('#telefono').attr('required', boleano);
     // $('#placas_federales').attr('required', boleano);
-    $('#seguro_viajes').attr('required', boleano);
+    // $('#seguro_viajes').attr('required', boleano);
 }
 ////FUNCION PARA REDIRIGIR EL OBJETO DEL FORMULARIO A OTRO PHP Y MOSTRAR LO EN EL MODAL
 function EnviarDatos( formData ){

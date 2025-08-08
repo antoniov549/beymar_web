@@ -44,6 +44,7 @@ if ($login->isUserLoggedIn()) {
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Main Styling -->
     <link href="../assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
+    <link href="../assets/css/thema-avz.css" rel="stylesheet" />
   </head>
 
   <body class="m-0 font-sans antialiased font-normal bg-white text-start text-base leading-default text-slate-500">

@@ -33,6 +33,14 @@ $user_password_new = isset($_REQUEST['user_password_new']) ? trim((string)$_REQU
 // user_password_repeat
 $user_password_repeat = isset($_REQUEST['user_password_repeat']) ? trim((string)$_REQUEST['user_password_repeat']) : '';
 
+// licencia
+$licencia = isset($_REQUEST['licencia']) ? trim((string)$_REQUEST['licencia']) : '';
+
+// telefono
+$telefono = isset($_REQUEST['telefono']) ? trim((string)$_REQUEST['telefono']) : '';
+
+
+
 
 // var_dump($_REQUEST);
 // var_dump($_FILES);
@@ -49,6 +57,13 @@ $user_password_repeat = isset($_REQUEST['user_password_repeat']) ? trim((string)
 		switch ($option) {
 			case 'insert':
 					$respuesta = $Cls_usuarios->Set_new_usuarios($user_name, $firstname, $lastname, $user_email, $user_password_new , $nivel_user);
+
+					if ($licencia) {
+						if ($respuesta['success']) {
+						    $respuesta = $Cls_usuarios->insertar_conductor($respuesta['id_insertado'], $licencia, $telefono, 'activo');
+						}
+					}
+
 					echo $respuesta['message'];
 				break;
 
@@ -59,7 +74,7 @@ $user_password_repeat = isset($_REQUEST['user_password_repeat']) ? trim((string)
 					// user_password_new
 					$user_password_new = isset($_REQUEST['user_password_new']) ? trim((string)$_REQUEST['user_password_new']) : '';
 			
-
+					// 
 					$respuesta = $Cls_usuarios->Update_password($usuario_id, $user_password_new);
 					echo $respuesta['message'];
 				break;

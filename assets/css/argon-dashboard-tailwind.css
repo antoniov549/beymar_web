@@ -1996,8 +1996,8 @@ h6 {
   background-image: none;
 }
 
-.bg-\[url\(\'https\:\/\/raw\.githubusercontent\.com\/creativetimofficial\/public-assets\/master\/argon-dashboard-pro\/assets\/img\/profile-layout-header\.jpg\'\)\] {
-  background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg');
+.bg-\[url\(\'\/assets\/img\/profile-layout-header\.jpg\'\)\] {
+  background-image: url('/assets/img/profile-layout-header.jpg');
 }
 
 .bg-signin-ill {
