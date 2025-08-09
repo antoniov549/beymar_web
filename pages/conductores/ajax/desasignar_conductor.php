@@ -10,3 +10,4 @@ if (!isset($_POST['vehiculo_id'], $_POST['conductor_id'])) {
 
 $respuesta = $Cls_conductores->desasignarConductor($_POST['vehiculo_id'], $_POST['conductor_id']);
 echo json_encode($respuesta);
+?>
