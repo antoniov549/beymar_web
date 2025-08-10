@@ -57,8 +57,13 @@ if ($conn->connect_errno) {
 }
 $conn->set_charset("utf8");
 
-// Consulta para traer viajes con estado 'Inicio_viaje' o 'En_camino'
-$sql = "SELECT * FROM viajes WHERE estado IN ('Inicio_viaje', 'En_camino') ORDER BY fecha_inicio DESC";
+// Consulta con JOIN para traer datos de tarifas
+$sql = "SELECT v.*, t.costo, t.tipo_vehiculo, t.zona, t.cantidad_personas
+        FROM viajes v
+        INNER JOIN tarifas t ON v.tarifa_id = t.tarifa_id
+        WHERE v.estado = 'Finalizado'
+        ORDER BY v.fecha_inicio DESC";
+
 $result = $conn->query($sql);
 
 // Comprobación de la consulta
@@ -69,17 +74,21 @@ if (!$result) {
     exit;
 }
 
-// Procesar resultados
+// Procesar resultados y calcular total
 $viajes = [];
+$total_costo = 0;
+
 while ($row = $result->fetch_assoc()) {
     $viajes[] = $row;
+    $total_costo += floatval($row['costo']); // suma de los costos
 }
 
 // Enviar respuesta
 echo json_encode([
     'success' => true,
-    'message' => 'Viajes obtenidos correctamente',
-    'viajes' => $viajes
+    'message' => 'Viajes finalizados obtenidos correctamente',
+    'viajes' => $viajes,
+    'total_costo' => $total_costo
 ]);
 
 $conn->close();

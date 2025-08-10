@@ -248,7 +248,68 @@ public function Get_conductores_sin_vehiculo() {
         ";
     }
 }
+///
 
+
+public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $campasidad_maxima ) {
+    try {
+        $estado = mysqli_real_escape_string($this->cnx_db, strip_tags($estado, ENT_QUOTES));
+        $tipo_vehiculo = mysqli_real_escape_string($this->cnx_db, strip_tags($tipo_vehiculo, ENT_QUOTES));
+        
+        $filtro = [];
+        $filtro[] = "(vc.fecha_desasignacion IS NULL)";
+        $filtro[] = "(conductor.estado = '$estado')";
+        $filtro[] = "(vehiculo.tipo = '$tipo_vehiculo')";
+        $filtro[] = "(vehiculo.capacidad >= '$campasidad_maxima')";
+
+        $where = count($filtro) ? 'WHERE ' . implode(' AND ', $filtro) : '';
+
+        $campos_select = '
+            conductor.conductor_id,
+            vehiculo.vehiculo_id,
+            usuario.usuario_id,
+            usuario.user_name,
+            usuario.nombre,
+            usuario.apellido,
+            vehiculo.tipo as tipo_vehiculo,
+            vehiculo.capacidad
+        ';
+        $tabla_principal = 'vehiculo_conductor as vc';
+        $inner_conductores = 'INNER JOIN conductores as conductor ON vc.conductor_id = conductor.conductor_id';
+        $inner_usuarios = 'INNER JOIN usuarios as usuario ON conductor.usuario_id = usuario.usuario_id';
+        $inner_vehiculos = 'INNER JOIN vehiculos as vehiculo ON vc.vehiculo_id = vehiculo.vehiculo_id';
+
+        $consulta = "
+            SELECT $campos_select
+            FROM $tabla_principal
+            $inner_conductores
+            $inner_usuarios
+            $inner_vehiculos
+            $where
+        ";
+
+        // Puedes comentar o quitar el echo cuando ya funcione
+        // echo "<div class='alert alert-success' role='alert'>Get_conductores_por_estado_vehiculo:<br>".$consulta."</div>";
+
+        $result = mysqli_query($this->cnx_db, $consulta);
+
+        if (!$result) {
+            throw new Exception('Error en consulta SQL: ' . mysqli_error($this->cnx_db));
+        }
+
+       
+        return $result;
+
+    } catch (Exception $e) {
+        $mensaje = htmlentities($e->getMessage(), ENT_QUOTES, 'UTF-8');
+        $this->errors[] = "
+            <div class='alert alert-danger' role='alert'>
+                ERROR!! ($mensaje)
+            </div>
+        ";
+        return false; // O null según convenga
+    }
+}
 
 
 ///////////////////////////////

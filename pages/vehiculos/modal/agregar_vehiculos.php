@@ -122,10 +122,8 @@ error_reporting(E_ALL);
         <select class="form-select" id="tipo" name="tipo" required>
           <option value="">Seleccione tipo</option>
           <option value="Camioneta">Camioneta</option>
-          <option value="Van">Van</option>
-          <option value="Combi">Combi</option>
-          <option value="Camión">Camión</option>
-          <option value="Carga ligera">Carga ligera</option>
+          <option value="Privado">Privado</option>
+          <option value="Suburban">Suburban</option>
         </select>
       </div>
 

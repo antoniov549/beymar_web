@@ -1,5 +1,5 @@
 <?php
-// Mostrar errores (para desarrollo)
+// Mostrar errores (solo en desarrollo)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -49,7 +49,7 @@ if (!$decoded) {
     exit;
 }
 
-// Obtener el usuario_id dentro de data
+// Obtener usuario_id desde el token
 $conductor_id = null;
 if (is_object($decoded) && property_exists($decoded, 'data') && property_exists($decoded->data, 'usuario_id')) {
     $conductor_id = $decoded->data->usuario_id;
@@ -61,7 +61,7 @@ if (!$conductor_id) {
     exit;
 }
 
-// Obtener datos enviados por POST
+// Obtener datos del POST
 $data = json_decode(file_get_contents("php://input"), true);
 if (!isset($data['viaje_id']) || empty($data['viaje_id'])) {
     http_response_code(400);
@@ -70,9 +70,9 @@ if (!isset($data['viaje_id']) || empty($data['viaje_id'])) {
 }
 
 $viaje_id = intval($data['viaje_id']);
-$fecha_fin = date('Y-m-d H:i:s');
+$fecha_actual = date('Y-m-d H:i:s');
 
-// Conexión a la BD
+// Conectar a la BD
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 if ($conn->connect_errno) {
     http_response_code(500);
@@ -81,8 +81,8 @@ if ($conn->connect_errno) {
 }
 $conn->set_charset("utf8");
 
-// Verificar que el viaje pertenece al conductor autenticado
-$sqlCheck = "SELECT * FROM viajes WHERE viaje_id = ? AND conductor_id = ?";
+// Verificar que el viaje pertenece al conductor y obtener estado actual
+$sqlCheck = "SELECT estado FROM viajes WHERE viaje_id = ? AND conductor_id = ?";
 $stmtCheck = $conn->prepare($sqlCheck);
 $stmtCheck->bind_param("ii", $viaje_id, $conductor_id);
 $stmtCheck->execute();
@@ -95,35 +95,68 @@ if ($result->num_rows === 0) {
     $conn->close();
     exit;
 }
+
+$viaje = $result->fetch_assoc();
+$estado_actual = $viaje['estado'];
 $stmtCheck->close();
 
-// Actualizar estado y fecha_fin
-$sql = "UPDATE viajes 
-        SET estado = 'Finalizado', fecha_fin = ? 
-        WHERE viaje_id = ? AND conductor_id = ?";
+// Determinar siguiente estado
+$nuevo_estado = null;
+$fecha_fin = null;
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sii", $fecha_fin, $viaje_id, $conductor_id);
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo json_encode([
-            'success' => true,
-            'message' => 'El viaje se actualizó a Finalizado correctamente'
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'No se pudo actualizar el viaje o ya estaba finalizado'
-        ]);
-    }
+if ($estado_actual === 'Inicio_viaje') {
+    $nuevo_estado = 'En_camino';
+} elseif ($estado_actual === 'En_camino') {
+    $nuevo_estado = 'Finalizado';
+    $fecha_fin = $fecha_actual;
+} elseif ($estado_actual === 'Finalizado') {
+    // No actualiza estado si ya está finalizado
+    $nuevo_estado = null;
 } else {
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error al ejecutar la actualización'
-    ]);
+    echo json_encode(['success' => false, 'message' => "Estado actual '{$estado_actual}' no es válido para actualizar"]);
+    $conn->close();
+    exit;
 }
 
-$stmt->close();
+// Actualizar en la base de datos si corresponde
+if ($nuevo_estado !== null && $nuevo_estado !== $estado_actual) {
+    if ($fecha_fin) {
+        $sqlUpdate = "UPDATE viajes SET estado = ?, fecha_fin = ? WHERE viaje_id = ? AND conductor_id = ?";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
+        $stmtUpdate->bind_param("ssii", $nuevo_estado, $fecha_fin, $viaje_id, $conductor_id);
+    } else {
+        $sqlUpdate = "UPDATE viajes SET estado = ? WHERE viaje_id = ? AND conductor_id = ?";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
+        $stmtUpdate->bind_param("sii", $nuevo_estado, $viaje_id, $conductor_id);
+    }
+
+    if (!$stmtUpdate->execute()) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Error al actualizar el estado']);
+        $stmtUpdate->close();
+        $conn->close();
+        exit;
+    }
+    $stmtUpdate->close();
+}
+
+// Obtener todos los viajes del conductor que NO estén finalizados
+$sqlList = "SELECT * FROM viajes WHERE conductor_id = ? AND estado <> 'Finalizado'";
+$stmtList = $conn->prepare($sqlList);
+$stmtList->bind_param("i", $conductor_id);
+$stmtList->execute();
+$resultList = $stmtList->get_result();
+
+$viajes = [];
+while ($row = $resultList->fetch_assoc()) {
+    $viajes[] = $row;
+}
+$stmtList->close();
 $conn->close();
+
+// Responder con mensaje y lista de viajes pendientes
+echo json_encode([
+    'success' => true,
+    'message' => $nuevo_estado !== null ? "Estado del viaje actualizado a '{$nuevo_estado}' correctamente" : "No se actualizó el estado (ya finalizado o no aplicable)",
+    'viajes_pendientes' => $viajes
+]);

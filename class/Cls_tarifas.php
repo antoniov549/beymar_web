@@ -181,5 +181,66 @@ function obtenerPorId($idBuscado) {
 
 
 
+///////////////////////////////////////
+public function Get_informacion_tarifas($zona, $vehiculo, $viaje, $minimo, $maximo ) {
+    try {
+        
+        $zona = mysqli_real_escape_string($this->cnx_db, strip_tags($zona, ENT_QUOTES));
+        $vehiculo = mysqli_real_escape_string($this->cnx_db, strip_tags($vehiculo, ENT_QUOTES));
+        $viaje = mysqli_real_escape_string($this->cnx_db, strip_tags($viaje, ENT_QUOTES));
+        $minimo = mysqli_real_escape_string($this->cnx_db, strip_tags($minimo, ENT_QUOTES));
+        $maximo = mysqli_real_escape_string($this->cnx_db, strip_tags($maximo, ENT_QUOTES));
+        
+        
+        $filtro = [];
+        if (!empty($zona)) { $filtro[]="( zona = '".$zona."')";  }
+
+        if (!empty($vehiculo)) { $filtro[]="( tipo_vehiculo = '".$vehiculo."')";  }
+
+        if (!empty($viaje)) { $filtro[]="( tipo_viaje = '".$viaje."')";  }
+
+       if (!empty($minimo) && !empty($maximo) && is_numeric($minimo) && is_numeric($maximo)) {
+            $filtro[] = "(cantidad_personas BETWEEN '".$minimo."' AND '".$maximo."')";
+        }elseif (!empty($minimo)) {
+             $filtro[] = "(cantidad_personas = '".$minimo."')";
+        }elseif (!empty($maximo)) {
+            $filtro[] = "(cantidad_personas = '".$maximo."')";
+        }
+
+
+        $where = count($filtro) ? 'WHERE ' . implode(' AND ', $filtro) : '';
+        /////////////////////////////////////
+         $campos_select='*';
+        $tabla_principal = ' tarifas as tarifa ';
+        $group = '';
+        $order = 'ORDER BY cantidad_personas';
+
+        $consulta = "
+            SELECT $campos_select
+            FROM $tabla_principal
+            $where
+            $group
+            $order
+        ";
+        
+         echo "<div class='alert alert-success' role='alert'>Get_informacion_tarifas:<br>".$consulta."</div>";
+        //$result=mysqli_fetch_assoc(mysqli_query($this->cnx_db,$consulta));
+        $result=mysqli_query($this->cnx_db,$consulta);
+        return $result;
+        
+    } catch (Exception $e) {
+        $mensaje = htmlentities($e->getMessage(), ENT_QUOTES, 'UTF-8');
+        $this->errors[] = "
+            <div class='alert alert-danger' role='alert'>
+                ERROR!! ($mensaje)
+            </div>
+        ";
+    }
+}
+////////////////////////////////////////////////////////////
+
+
+
+
 ///////////////////////////////
 } ///FIN DEL CLASE

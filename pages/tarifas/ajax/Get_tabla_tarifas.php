@@ -64,22 +64,20 @@ $titulos_traductor = [
                     foreach ($titulos as $titulo) {
                         switch ($titulo) {
                             case 'Opciones':
-                                echo '
-                                    <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                      <button class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-slate-400 
-                                        datoInterno
-                                        data-zona="'.$result_row['zona'].'"
-                                        data-rango="'.$result_row['minimo'].'-'.$result_row['maximo'].'"
-                                        data-vehiculo="'.$result_row['tipo_vehiculo'].'"
-                                        data-viaje="'.$result_row['tipo_viaje'].'"
-
-
-
-                                      ">
-                                        <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
-                                      </button>
-                                    </td>
+                               echo '
+                                  <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                    <button
+                                      class="inline-block px-5 py-2.5 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none leading-normal text-sm ease-in bg-150 tracking-tight-rem bg-x-25 text-slate-400 datoInterno"
+                                      data-zona="'.str_replace(' ', '_', $result_row['zona']).'"
+                                      data-rango="'.$result_row['minimo'].'-'.$result_row['maximo'].'"
+                                      data-vehiculo="'.$result_row['tipo_vehiculo'].'"
+                                      data-viaje="'.$result_row['tipo_viaje'].'"
+                                    >
+                                      <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
+                                    </button>
+                                  </td>
                                 ';
+
                                 break;
                             case 'Destino':
                                 echo '
