@@ -33,6 +33,7 @@
 
 <!------ DATA TABLE ------------>
 <link rel="stylesheet" href="../vendor/dataTable/css/jquery.dataTables.min.css">
+
 <link rel="stylesheet" href="../vendor/dataTable/buttons/css/buttons.dataTables.min.css">
 <script src="../vendor/dataTable/js/jquery.dataTables.min.js"></script>
 <script src="../vendor/dataTable/buttons/js/dataTables.buttons.min.js"></script>

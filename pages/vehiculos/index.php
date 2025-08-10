@@ -215,7 +215,7 @@ function Imprime_vehiculos_sin_conductor(contenedor) {
        // console.log(html);
       $contenedor.html(html);
      
-      inicializarEventosTabla(contenedor);
+      // inicializarEventosTabla(contenedor);
     },
     error: function (xhr, status, error) {
       console.error('Error al cargar los datos:', error);
@@ -240,7 +240,7 @@ function Imprime_documentacion_vencida(contenedor) {
        // console.log(html);
       $contenedor.html(html);
      
-      inicializarEventosTabla(contenedor);
+      // inicializarEventosTabla(contenedor);
     },
     error: function (xhr, status, error) {
       console.error('Error al cargar los datos:', error);

@@ -39,11 +39,12 @@ $num_filas = mysqli_num_rows($result);
         </div>
       </div>
       <div class="flex">
+
         <a 
           href="<?= $rutaPublica ?>" target="_blank"
-          class="group ease-in leading-pro text-xs rounded-3.5xl p-1.2 h-6.5 w-6.5 mx-0 my-auto inline-block cursor-pointer border-0 bg-transparent text-center align-middle font-bold text-slate-700 shadow-none transition-all dark:text-white">
-          <i class="ni ease-bounce text-2xs group-hover:translate-x-1.25 ni-bold-right transition-all duration-200" aria-hidden="true"></i>
-        </a>
+        class="dark:text-white inline-block px-0 py-2.5 mb-0 ml-6 font-bold leading-normal text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer ease-in bg-150 text-sm active:opacity-85 hover:-translate-y-px tracking-tight-rem bg-x-25 text-slate-700">
+        <i class="mr-1 text-lg leading-none fas fa-file-pdf"></i>  </a>
+
       </div>
     </li>
   <?php 
