@@ -254,6 +254,7 @@ public function Get_conductores_sin_vehiculo() {
 ///
 
 
+// 
 public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $campasidad_maxima ) {
     try {
         $estado = mysqli_real_escape_string($this->cnx_db, strip_tags($estado, ENT_QUOTES));
@@ -268,14 +269,15 @@ public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $ca
         $where = count($filtro) ? 'WHERE ' . implode(' AND ', $filtro) : '';
 
         $campos_select = '
-            conductor.conductor_id,
-            vehiculo.vehiculo_id,
-            usuario.usuario_id,
-            usuario.user_name,
-            usuario.nombre,
-            usuario.apellido,
-            vehiculo.tipo as tipo_vehiculo,
-            vehiculo.capacidad
+                conductor.conductor_id,
+                vehiculo.vehiculo_id,
+                usuario.usuario_id,
+                usuario.user_name,
+                usuario.nombre,
+                usuario.apellido,
+                vehiculo.tipo as tipo_vehiculo,
+                vehiculo.capacidad,
+                conductor.estado as conductor_estado
         ';
         $tabla_principal = 'vehiculo_conductor as vc';
         $inner_conductores = 'INNER JOIN conductores as conductor ON vc.conductor_id = conductor.conductor_id';
@@ -313,7 +315,7 @@ public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $ca
         return false; // O null según convenga
     }
 }
-
+// 
 
 
 public function Update_estado_conductor($estado, $conductor_id) {
