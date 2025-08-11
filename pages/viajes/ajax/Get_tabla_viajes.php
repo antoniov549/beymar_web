@@ -117,10 +117,31 @@ $titulos_traductor = [
                       bg-gradient-to-tl
                       from-slate-600
                       to-slate-300
+                      px-2.5 
+                      text-xs 
+                      rounded-1.8 
+                      py-1.4 
+                      inline-block 
+                      whitespace-nowrap 
+                      text-center 
+                      align-baseline 
+                      font-bold 
+                      uppercase 
+                      leading-none 
+                      text-white
+              ">
+              <?= str_replace('_', ' ', $result_row['viaje_estado']) ?>
+              </span>
+
+
+              <span class="
+                      bg-gradient-to-tl
+                      from-orange-600
+                      to-orange-300
                       px-2.5
                       text-xs
-                      rounded-1.8
-                      py-1.4
+                      rounded-[1.8rem]
+                      py-[0.35rem]
                       inline-block
                       whitespace-nowrap
                       text-center
@@ -129,15 +150,19 @@ $titulos_traductor = [
                       uppercase
                       leading-none
                       text-white
-              ">
-              <?= str_replace('_', ' ', $result_row['viaje_estado']) ?>
+                ">
+                Texto aquí
               </span>
 
 
           </td>
 
           <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-            <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">23/04/18</span>
+            <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+              <?=  $result_row['fecha_inicio'] ?>
+              <br>
+              <?=  $result_row['fecha_fin'] ?>
+            </span>
           </td>
           
           <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
