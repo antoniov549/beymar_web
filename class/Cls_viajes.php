@@ -11,7 +11,10 @@ private $cnx_db;
 
 
 public function __construct() {
-    $this->cnx_db = mysqli_connect("localhost:3306", "www-data", "b3ym4rTravel", "beymar_travel");
+    // Incluir configuración de base de datos
+    require_once(__DIR__ . '/../config/db.php');
+    
+    $this->cnx_db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
     if (!$this->cnx_db) {
         throw new Exception("Conexión fallida: " . mysqli_connect_error());

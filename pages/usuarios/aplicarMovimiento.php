@@ -1,10 +1,10 @@
 <?php
+include('../../includes/comprobar_logeo.php');
 // Habilitar la visualización de errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //exit("ALTO MAQUINA");
-include('../../includes/comprobar_logeo.php');
 
 include_once('../../class/Cls_usuarios.php');
 $Cls_usuarios = new Cls_usuarios();

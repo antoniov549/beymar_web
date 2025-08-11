@@ -1,9 +1,11 @@
+<?php 
+  include('../includes/comprobar_logeo.php');
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <?php 
       include('../includes/head.php');
-      include('../includes/comprobar_logeo.php');
     ?>
   </head>
   <!--  -->

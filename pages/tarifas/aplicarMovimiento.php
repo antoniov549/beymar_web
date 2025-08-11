@@ -1,11 +1,12 @@
 <?php
+include('../../includes/comprobar_logeo.php');
+
 // Habilitar la visualización de errores
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // var_dump($_REQUEST);
 
-include('../../includes/comprobar_logeo.php');
 
 include_once('../../class/Cls_viajes.php');
 $Cls_viajes = new Cls_viajes();
