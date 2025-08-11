@@ -27,10 +27,10 @@ $titulos = [
 $titulos_traductor = [ 
     "Destino",
     "Vehiculo", 
-    "tipo de vaije", 
-    "Cantidad de personas minimo", 
-    "Cantidad de personas maxima", 
-    "costo", 
+    "Tipo de viaje", 
+    "Cantidad mínima", 
+    "Cantidad máxima", 
+    "Costo", 
     "Opciones"
 ];
 ?>
@@ -41,15 +41,7 @@ $titulos_traductor = [
         <thead class="align-bottom">
           <tr>
             <?php 
-                $titulos_traductor = [ 
-                    "Destino",
-                    "Vehiculo", 
-                    "Tipo de viaje", 
-                    "Cantidad mínima", 
-                    "Cantidad máxima", 
-                    "Costo", 
-                    "Opciones"
-                ];
+                
                 foreach ($titulos_traductor as $titulo) {
                     echo '<th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70 si_input">'.$titulo.'</th>';
                 }
@@ -72,6 +64,7 @@ $titulos_traductor = [
                                       data-rango="'.$result_row['minimo'].'-'.$result_row['maximo'].'"
                                       data-vehiculo="'.$result_row['tipo_vehiculo'].'"
                                       data-viaje="'.$result_row['tipo_viaje'].'"
+                                      data-costo="'.$result_row['costo'].'"
                                     >
                                       <i class="text-xs leading-tight fa fa-ellipsis-v dark:text-white dark:opacity-60"></i>
                                     </button>

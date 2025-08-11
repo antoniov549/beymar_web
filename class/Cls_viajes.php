@@ -39,6 +39,44 @@ function checkRole($allowed_roles) {
 //////////////////////////////////////////////////////////////
 
 
+public function insertar_viaje($conductor_id, $tarifa_id, $pasajero, $fecha_inicio, $estado) {
+    try {
+        $conductor_id = (int)$conductor_id;
+        $tarifa_id = (int)$tarifa_id;
+        $pasajero = mysqli_real_escape_string($this->cnx_db, strip_tags($pasajero, ENT_QUOTES));
+        $fecha_inicio = mysqli_real_escape_string($this->cnx_db, strip_tags($fecha_inicio, ENT_QUOTES));
+        $estado = mysqli_real_escape_string($this->cnx_db, strip_tags($estado, ENT_QUOTES));
+
+        $query = "INSERT INTO viajes (conductor_id, tarifa_id, pasajero, fecha_inicio, estado)
+                  VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = $this->cnx_db->prepare($query);
+
+        if (!$stmt) {
+            throw new Exception("Error en prepare: " . $this->cnx_db->error);
+        }
+
+        $stmt->bind_param("iisss", $conductor_id, $tarifa_id, $pasajero, $fecha_inicio, $estado);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error en execute: " . $stmt->error);
+        }
+
+        $nuevo_id = $this->cnx_db->insert_id;
+
+        return [
+            'success' => true,
+            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente.</div>',
+            'id_insertado' => $nuevo_id
+        ];
+
+    } catch (Exception $e) {
+        return [
+            'success' => false,
+            'message' => '<div class="alert alert-danger" role="alert">Error: ' . $e->getMessage() . '</div>'
+        ];
+    }
+}
 
 
 

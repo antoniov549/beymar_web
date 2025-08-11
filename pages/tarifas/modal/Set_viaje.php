@@ -23,7 +23,8 @@ $rango = isset($_REQUEST['rango']) ? trim((string)$_REQUEST['rango']) : '';
 /// zona
 $zona = isset($_REQUEST['zona']) ? trim((string)$_REQUEST['zona']) : '';
 
-
+/// costo
+$costo = isset($_REQUEST['costo']) ? trim((string)$_REQUEST['costo']) : '';
 
 // Dividir rango en mínimo y máximo
 $minimo = $maximo = null;
@@ -37,7 +38,6 @@ if ($rango !== '') {
 
 // Reemplazar "_" por espacio en zona
 $zona_limpia = str_replace('_', ' ', $zona);
-
 $result = $Cls_tarifas->Get_informacion_tarifas($zona_limpia, $vehiculo, $viaje, $minimo, $maximo);
 
 $datos_consulta = [];
@@ -46,6 +46,9 @@ if ($result && mysqli_num_rows($result) > 0) {
         $datos_consulta[] = $fila;
     }
 }
+
+// echo "<pre>" . json_encode($datos_consulta, JSON_PRETTY_PRINT) . "</pre>";
+
 
 
 ?>
@@ -68,11 +71,13 @@ if ($result && mysqli_num_rows($result) > 0) {
 			name="form-add_viaje"
 		>
 
-		<input type="hidden" name="vehiculo" value="<?= htmlspecialchars($vehiculo) ?>" >
-		<input type="hidden" name="option" >
+		<input type="hidden" name="vehiculo" value="<?= htmlspecialchars($vehiculo) ?>" readonly >
+		<input type="hidden" name="option" readonly>
+		<input type="hidden" name="tarifa_id" readonly>
 
 		
-		
+		<!-- Input hidden con JSON -->
+		<input type="hidden" id="jsonTarifas" value='<?= json_encode($datos_consulta, JSON_PRETTY_PRINT) ?>'>
 
 		<div class="form-group m-b-10 ">
 			<label for="cantidad_personas" class=" control-label">Cantidad de Pasajeros: </label>
@@ -89,6 +94,26 @@ if ($result && mysqli_num_rows($result) > 0) {
 			  </select>
 			 </div>
 		</div>
+
+
+		<div class="form-group m-b-10 ">
+			<label for="conductores" class=" control-label">Conductor: </label>
+			  <div class="">
+			  <select class="form-control" id="conductores" name="conductores" disabled>
+			  	<option selected>Selecciona una opcion</option>
+			    
+			  </select>
+			 </div>
+		</div>
+
+
+		<div class="form-group m-b-10 costo" style="display: none;">
+			<label for="costo" class=" control-label">Costo del viaje</label>
+			<div class="">		  
+			  <input class="form-control" type="text"  id="costo" value="<?= $costo; ?>" readonly >
+			</div>
+		</div>
+
 
 		<div class="row">
 					<div class="form-group m-b-10 col-6 ">
@@ -109,24 +134,18 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 
 	
-		<div class="form-group m-b-10  ">
-			<label for="fecha_inicio" class=" control-label">Fecha Inicial</label>
-			<div class="">		  
-			  <input class="form-control" type="datetime-local"  id="fecha_inicio" required >
-			</div>
+		<div class="form-group m-b-10">
+		    <label for="fecha_inicio" class="control-label">Fecha Inicial</label>
+		    <div>
+		        <input class="form-control" 
+		               type="datetime-local"  
+		               id="fecha_inicio" 
+		               name="fecha_inicio" 
+		               required >
+		    </div>
 		</div>
 
 
-
-		<div class="form-group m-b-10 ">
-			<label for="conductores" class=" control-label">Conductor: </label>
-			  <div class="">
-			  <select class="form-control" id="conductores" name="conductores" disabled>
-			  	<option selected>Selecciona una opcion</option>
-			    
-			  </select>
-			 </div>
-		</div>
 
 
 		</form>
@@ -152,21 +171,51 @@ setMinFecha();
 $(document).on('change', '#cantidad_personas', function(event) {
     var cantidad_personas = $("#cantidad_personas option:selected").val();
     var vehiculo = $('input[name="vehiculo"]').val();
-    console.log(cantidad_personas + ' ' + vehiculo);
+    const tarifaId = obtenerTarifaIdPorPersonas(cantidad_personas);
+    $('input[name="tarifa_id"]').val(tarifaId);
+    $('.costo').show();
+    // console.log(cantidad_personas + ' ' + vehiculo);
     Imprime_conductores('conductores', vehiculo, cantidad_personas);
+    
+
 });
+
+
+
+
+
 
 
 // 
 $('.guardar').on('click', function () {
 	// 
-    const form = document.getElementById("form-add_users");
+    const form = document.getElementById("form-add_viaje");
+
+    // 
+    if ($('#cantidad_personas').val() === null) {
+	  alert('Debes seleccinar la catidad de personas');
+	  $('#cantidad_personas').focus();
+	  return;
+	}
+    //
+
+     // 
+    if ($('#conductores').val() === null) {
+	  alert('Debes seleccionar un conductor');
+	  $('#conductores').focus();
+	  return;
+	}
+    // 
+
+
     // Valida los campos requeridos del formulario
     if (!form.checkValidity()) {
         form.reportValidity(); // Muestra mensajes de error nativos del navegador
         return; // No continúa si no pasa la validación
     }
     // 
+    
+   
 	$('input[name="option"]').val('insert');
     // Confirmación del usuario
     let respuesta_confirmacion_envio = confirm("SE ENVIARAN LOS DATOS!!");
@@ -184,21 +233,22 @@ $('.guardar').on('click', function () {
 
 
 function setMinFecha() {
+    const inputFecha = document.getElementById('fecha_inicio');
 
-	  const inputFecha = document.getElementById('fecha_inicio');
+    const now = new Date();
+    now.setDate(now.getDate() - 1); // Restar 1 día
 
-	const now = new Date();
+    // Formatear a YYYY-MM-DDTHH:mm (sin segundos)
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
 
-	// Formatear a YYYY-MM-DDTHH:mm (sin segundos)
-	const year = now.getFullYear();
-	const month = String(now.getMonth() + 1).padStart(2, '0');
-	const day = String(now.getDate()).padStart(2, '0');
-	const hours = String(now.getHours()).padStart(2, '0');
-	const minutes = String(now.getMinutes()).padStart(2, '0');
-
-	const minFecha = `${year}-${month}-${day}T${hours}:${minutes}`;
-	inputFecha.min = minFecha;
+    const minFecha = `${year}-${month}-${day}T${hours}:${minutes}`;
+    inputFecha.min = minFecha;
 }
+
 
 
 
@@ -265,5 +315,13 @@ function Imprime_conductores(contenedor, tipo_vehiculo, cantidad_personas) {
   });
 }
 
+
+function obtenerTarifaIdPorPersonas(cantidad) {
+	const jsonStr = $('#jsonTarifas').val();
+	const tarifas = JSON.parse(jsonStr);
+
+	const tarifa = tarifas.find(t => t.cantidad_personas == cantidad.toString());
+	return tarifa ? tarifa.tarifa_id : null;
+}
 
 </script>

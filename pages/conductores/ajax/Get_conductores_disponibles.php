@@ -24,7 +24,7 @@ if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         $conductor_id = htmlspecialchars($row['conductor_id']);
         $nombre = htmlspecialchars($row['nombre']." ".$row['apellido'] );
-        echo "<option value='$rol_id'>$nombre</option>";
+        echo "<option value='$conductor_id'>$nombre</option>";
     }
 } else {
     echo "<option value=''>Error al obtener Conductores</option>";

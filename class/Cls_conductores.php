@@ -289,7 +289,7 @@ public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $ca
         ";
 
         // Puedes comentar o quitar el echo cuando ya funcione
-        // echo "<div class='alert alert-success' role='alert'>Get_conductores_por_estado_vehiculo:<br>".$consulta."</div>";
+        echo "<div class='alert alert-success' role='alert'>Get_conductores_por_estado_vehiculo:<br>".$consulta."</div>";
 
         $result = mysqli_query($this->cnx_db, $consulta);
 
