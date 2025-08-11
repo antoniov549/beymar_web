@@ -44,7 +44,7 @@ $conn->set_charset("utf8");
 // Consulta JOIN para obtener los datos del vehículo del usuario autenticado
 $sql = "
 SELECT 
-vehiculo.*
+vehiculo.* 
 FROM beymar_travel.vehiculo_conductor as cv 
 INNER JOIN conductores as conductor on conductor.conductor_id = cv.conductor_id
 INNER JOIN vehiculos as vehiculo on vehiculo.vehiculo_id = cv.vehiculo_id
