@@ -205,7 +205,7 @@ function inicializarEventosTabla(contenedor) {
 
   // Inicializar DataTable
   const tablaDT = $tabla.DataTable({
-    order: [[1, 'desc']],
+    order: [[0, 'desc']],
     lengthMenu: [[5, 10, 25, 50, 100, 200, -1], [5, 10, 25, 50, 100, 200, "All"]],
     pageLength: 10,
     searching: true,

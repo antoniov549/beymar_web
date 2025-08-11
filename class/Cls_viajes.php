@@ -261,7 +261,7 @@ public function Get_tabla_viajes() {
         ";
 
         // Puedes comentar o quitar el echo cuando ya funcione
-        echo "<div class='alert alert-success' role='alert'>Get_tabla_viajes:<br>".$consulta."</div>";
+        // echo "<div class='alert alert-success' role='alert'>Get_tabla_viajes:<br>".$consulta."</div>";
         $result = mysqli_query($this->cnx_db, $consulta);
 
         if (!$result) {
@@ -288,6 +288,36 @@ public function Get_tabla_viajes() {
 //
 
 
+function calcularDuracion($fechaInicio, $fechaFin = null) {
+    if (empty($fechaInicio)) {
+        return null; // No se puede calcular sin fecha de inicio
+    }
+
+    if (empty($fechaFin)) {
+        return "en curso";
+    }
+
+    try {
+        $inicio = new DateTime($fechaInicio);
+        $fin = new DateTime($fechaFin);
+
+        if ($fin < $inicio) {
+            return "Fecha fin menor a fecha inicio";
+        }
+
+        $diferencia = $inicio->diff($fin);
+
+        return sprintf(
+            "%dDd:%dHh:%dMm:%dSs",
+            $diferencia->days,
+            $diferencia->h,
+            $diferencia->i,
+            $diferencia->s
+        );
+    } catch (Exception $e) {
+        return "Error en el formato de fecha";
+    }
+}
 
 
 

@@ -14696,6 +14696,38 @@ table.dataTable thead .sorting {
 
 
 
+.from-orange-600 {
+    --tw-gradient-from: #ff6a00; /* Naranja fuerte */
+    --tw-gradient-to: rgb(255 106 0 / 0); /* Transparente del mismo tono */
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-orange-300 {
+    --tw-gradient-to: #ffb347; /* Naranja claro/dorado */
+}
+
+.from-yellow-600 {
+    --tw-gradient-from: #ca8a04; /* Amarillo fuerte/dorado */
+    --tw-gradient-to: rgb(202 138 4 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-yellow-300 {
+    --tw-gradient-to: #fde047; /* Amarillo claro pastel */
+}
+
+.from-red-600 {
+    --tw-gradient-from: #dc2626; /* Rojo intenso */
+    --tw-gradient-to: rgb(220 38 38 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-red-300 {
+    --tw-gradient-to: #fca5a5; /* Rojo claro rosado */
+}
+
+
+
 /*******************************************************************AJUSTES EN LOS TAMA:OS DE PANTALLAS ****************************************************************/
 /*---------------------1920PX--------------------------------------------------------*/
 @media screen and (max-width: 1920px) {

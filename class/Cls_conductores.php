@@ -144,7 +144,8 @@ public function obtenerConductoresAsignados() {
         vc.*, 
         v.placas, 
         c.licencia, 
-        u.nombre AS conductor_nombre
+        u.nombre AS conductor_nombre,
+        v.tipo as vehiculo_tipo
       FROM vehiculo_conductor vc
       JOIN vehiculos v ON vc.vehiculo_id = v.vehiculo_id
       JOIN conductores c ON vc.conductor_id = c.conductor_id
@@ -163,6 +164,7 @@ public function obtenerConductoresAsignados() {
       $datos[] = $fila;
     }
 
+    // echo "<div class='alert alert-success' role='alert'>obtenerConductoresAsignados:<br>".$consulta."</div>";
     return ['success' => true, 'data' => $datos];
 
   } catch (Exception $e) {

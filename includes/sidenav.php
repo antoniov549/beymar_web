@@ -44,31 +44,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Agregar Usuario</span>
           </a>
         </li>
-        
-        <li class="mt-0.5 w-full">
-          <a class="<?php echo ($currentPage == 'viajes.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
-            dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
-            href="../pages/viajes.php"
-          >
-            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
-            </div>
-            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Viajes</span>
-          </a>
-        </li>
-
-        <li class="mt-0.5 w-full">
-          <a class="<?php echo ($currentPage == 'tarifas.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
-            dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
-            href="../pages/tarifas.php"
-          >
-            <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
-            </div>
-            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Tarifas</span>
-          </a>
-        </li>
-          
+        <!--  -->
         <li class="mt-0.5 w-full">
           <a class="<?php echo ($currentPage == 'vehiculos.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
             dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
@@ -80,7 +56,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">vehiculos</span>
           </a>
         </li>
-
+        <!--  -->
         <li class="mt-0.5 w-full">
           <a class="<?php echo ($currentPage == 'conductores.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
             dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
@@ -92,35 +68,30 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Conductores</span>
           </a>
         </li>
-
-        
-
-
-        
-<!-- 
+        <!--  -->
         <li class="mt-0.5 w-full">
-          <a class="<?php echo ($currentPage == 'sign-up.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
+          <a class="<?php echo ($currentPage == 'tarifas.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
             dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
-            href="../pages/sign-up.php"
+            href="../pages/tarifas.php"
           >
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
               <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
             </div>
-             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sign Up</span>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Tarifas</span>
           </a>
-        </li> -->
-      
-
-        <!-- <li class="mt-0.5 w-full">
-          <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/sign-in.html">
+        </li>
+        <!--  -->
+        <li class="mt-0.5 w-full">
+          <a class="<?php echo ($currentPage == 'viajes.php') ? 'py-2.7 bg-blue-500/13 rounded-lg font-semibold text-slate-700' : 'text-slate-700'; ?>
+            dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors"
+            href="../pages/viajes.php"
+          >
             <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-              <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-single-copy-04"></i>
+              <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
             </div>
-            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sign In</span>
+            <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Viajes</span>
           </a>
-        </li> -->
-
-          
+        </li>
 
           
         </ul>

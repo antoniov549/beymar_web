@@ -121,7 +121,6 @@ error_reporting(E_ALL);
         <label for="tipo" class="form-label">Tipo</label>
         <select class="form-select" id="tipo" name="tipo" required>
           <option value="">Seleccione tipo</option>
-          <option value="Camioneta">Camioneta</option>
           <option value="Privado">Privado</option>
           <option value="Suburban">Suburban</option>
         </select>

@@ -33,6 +33,38 @@ $titulos_traductor = [
     "Opciones"
 ];
 ?>
+<style type="text/css">
+.from-orange-600 {
+    --tw-gradient-from: #ff6a00; /* Naranja fuerte */
+    --tw-gradient-to: rgb(255 106 0 / 0); /* Transparente del mismo tono */
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-orange-300 {
+    --tw-gradient-to: #ffb347; /* Naranja claro/dorado */
+}
+
+.from-yellow-600 {
+    --tw-gradient-from: #ca8a04; /* Amarillo fuerte/dorado */
+    --tw-gradient-to: rgb(202 138 4 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-yellow-300 {
+    --tw-gradient-to: #fde047; /* Amarillo claro pastel */
+}
+
+.from-red-600 {
+    --tw-gradient-from: #dc2626; /* Rojo intenso */
+    --tw-gradient-to: rgb(220 38 38 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-red-300 {
+    --tw-gradient-to: #fca5a5; /* Rojo claro rosado */
+}
+
+</style>
 
 <div class="flex-auto px-0 pt-0 pb-2">
   <div class="p-0 overflow-x-auto ps">
@@ -76,7 +108,7 @@ $titulos_traductor = [
           <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
             <div class="flex px-2 py-1">
               <div>
-                <img src="../assets/img/team-2.jpg" class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-9 w-9 rounded-xl" alt="user1">
+                <i class="ni ni-single-02"></i>
               </div>
               <div class="flex flex-col justify-center">
                 <h6 class="mb-0 text-sm leading-normal dark:text-white"><?= $result_row['nombre']." ".$result_row['apellido'] ?></h6>
@@ -91,69 +123,116 @@ $titulos_traductor = [
           </td>
 
           <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-            <span 
-                  class="
-                  bg-gradient-to-tl 
-                  from-emerald-500 
-                  to-teal-400 
-                  px-2.5 
-                  text-xs 
-                  rounded-1.8 
-                  py-1.4 
-                  inline-block 
-                  whitespace-nowrap 
-                  text-center 
-                  align-baseline 
-                  font-bold 
-                  uppercase 
-                  leading-none 
-                  text-white
-              ">
-              <?= str_replace('_', ' ', $result_row['viaje_estado']) ?>
-            </span>
-
-              <span 
+            <?php 
+            switch ($result_row['viaje_estado']) {
+              case 'En_camino':
+                echo '
+                  <span 
                     class="
-                      bg-gradient-to-tl
-                      from-slate-600
-                      to-slate-300
-                      px-2.5 
-                      text-xs 
-                      rounded-1.8 
-                      py-1.4 
-                      inline-block 
-                      whitespace-nowrap 
-                      text-center 
-                      align-baseline 
-                      font-bold 
-                      uppercase 
-                      leading-none 
-                      text-white
-              ">
-              <?= str_replace('_', ' ', $result_row['viaje_estado']) ?>
-              </span>
-
-
-              <span class="
-                      bg-gradient-to-tl
-                      from-orange-600
-                      to-orange-300
-                      px-2.5
-                      text-xs
-                      rounded-[1.8rem]
-                      py-[0.35rem]
-                      inline-block
-                      whitespace-nowrap
-                      text-center
-                      align-baseline
-                      font-bold
-                      uppercase
-                      leading-none
-                      text-white
+                    bg-gradient-to-tl 
+                    from-yellow-600
+                    to-yellow-300
+                    px-2.5 
+                    text-xs 
+                    rounded-1.8 
+                    py-1.4 
+                    inline-block 
+                    whitespace-nowrap 
+                    text-center 
+                    align-baseline 
+                    font-bold 
+                    uppercase 
+                    leading-none 
+                    text-white
                 ">
-                Texto aquí
-              </span>
+                  '.str_replace('_', ' ', $result_row['viaje_estado']).'
+                </span>
+                ';
+                break;
 
+              case 'Inicio_viaje':
+               
+                echo '
+                  <span 
+                    class="
+                    bg-gradient-to-tl 
+                    from-orange-600
+                    to-orange-300
+                    px-2.5 
+                    text-xs 
+                    rounded-1.8 
+                    py-1.4 
+                    inline-block 
+                    whitespace-nowrap 
+                    text-center 
+                    align-baseline 
+                    font-bold 
+                    uppercase 
+                    leading-none 
+                    text-white
+                ">
+                  '.str_replace('_', ' ', $result_row['viaje_estado']).'
+                </span>
+                ';
+
+                break;
+
+              case 'Finalizado':  
+                  echo '
+                  <span 
+                    class="
+                    bg-gradient-to-tl 
+                    from-emerald-500 
+                    to-teal-400 
+                    px-2.5 
+                    text-xs 
+                    rounded-1.8 
+                    py-1.4 
+                    inline-block 
+                    whitespace-nowrap 
+                    text-center 
+                    align-baseline 
+                    font-bold 
+                    uppercase 
+                    leading-none 
+                    text-white
+                ">
+                  '.str_replace('_', ' ', $result_row['viaje_estado']).'
+                </span>
+                ';
+
+                break;
+
+              
+              default:
+
+                 echo '
+                  <span 
+                    class="
+                    bg-gradient-to-tl 
+                    from-red-600
+                    to-red-300
+                    px-2.5 
+                    text-xs 
+                    rounded-1.8 
+                    py-1.4 
+                    inline-block 
+                    whitespace-nowrap 
+                    text-center 
+                    align-baseline 
+                    font-bold 
+                    uppercase 
+                    leading-none 
+                    text-white
+                ">
+                  '.str_replace('_', ' ', $result_row['viaje_estado']).'
+                </span>
+                ';
+               
+                break;
+            }
+
+            ?>
 
           </td>
 
@@ -166,7 +245,8 @@ $titulos_traductor = [
           </td>
           
           <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-            <a href="javascript:;" class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> Edit </a>
+            <?= $Cls_viajes->calcularDuracion($result_row['fecha_inicio'], $result_row['fecha_fin']) ?>
+
           </td>
 
         </tr>

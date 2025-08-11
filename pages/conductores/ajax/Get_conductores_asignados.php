@@ -18,7 +18,7 @@ $datos = $respuesta['data'];
   <tr>
     <td class='px-4 py-2' ><?= htmlspecialchars($row['placas']) ?></td>
     <td class='px-4 py-2' ><?= htmlspecialchars($row['conductor_nombre']) ?> (<?= htmlspecialchars($row['licencia']) ?>)</td>
-    <td class='px-4 py-2' ><?= htmlspecialchars($row['fecha_asignacion']) ?></td>
+    <td class='px-4 py-2' ><?= htmlspecialchars($row['fecha_asignacion']) ?> (<?= htmlspecialchars($row['vehiculo_tipo']) ?>) </td>
     <td class='px-4 py-2' >
       <button
         class='btn-desasignar text-red-500 hover:underline'
