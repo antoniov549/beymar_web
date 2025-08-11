@@ -73,7 +73,7 @@ public function insertar_viaje($conductor_id, $tarifa_id, $pasajero, $fecha_inic
 
         return [
             'success' => true,
-            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente. '.$token.' </div>',
+            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente.</div> <pre>'.print_r($token).'</pre>',
             'id_insertado' => $nuevo_id
         ];
 
@@ -86,19 +86,22 @@ public function insertar_viaje($conductor_id, $tarifa_id, $pasajero, $fecha_inic
 }
 
 // --------------------------------------------------
-
 function sendNotification($conductor_id, $message, $title) {
 
     $tokenData = $this->Get_token_usuario_movil($conductor_id);
-    if (!$tokenData || empty($tokenData['token'])) {
+    // Para debug, luego eliminar
+    //echo "CONSULTA tokenData: ";
+    //var_dump($tokenData);
+
+    if (!$tokenData || empty($tokenData['expo_token'])) {
         // No token disponible, abortar o manejar el error
         return ['success' => false, 'error' => 'Token de dispositivo no encontrado'];
     }
 
-    $token = $tokenData['token'];
+    $token = $tokenData['expo_token']; // corregido a 'expo_token'
 
     $body = [
-        'to'    => $token, // Ejemplo: 'ExponentPushToken[z-vjh5MGLhswMs8t_Xnj1c]'
+        'to'    => $token,
         'sound' => 'default',
         'title' => $title,
         'body'  => $message,
@@ -127,28 +130,23 @@ function sendNotification($conductor_id, $message, $title) {
 
 // --------------------------------------------------
 
-public function Get_token_usuario_movil($conductor_id) {
+function Get_token_usuario_movil($conductor_id) {
     try {
 
-        $usuario = $this->Get_usuario_conductor($conductor_id);
+        $conductor_id = (int)$conductor_id;
 
-        if (!$usuario || !isset($usuario['usuario_id'])) {
-            throw new Exception('No se encontró usuario para el conductor.');
-        }
+        $campos_select = 'notificacion.expo_token';
+        $tabla_principal = 'beymar_travel.usuarios usuario 
+            INNER JOIN conductores conductor ON conductor.usuario_id = usuario.usuario_id
+            INNER JOIN notificaciones notificacion ON usuario.usuario_id = notificacion.usuario_id';
 
-        $usuario_id = (int)$usuario['usuario_id'];
-
-        $filtro = [];
-        $filtro[] = "(tk.usuario_id = $usuario_id)";
-        $where = count($filtro) ? 'WHERE ' . implode(' AND ', $filtro) : '';
-
-        $campos_select = '*';
-        $tabla_principal = 'notificaciones as tk';
+        $where = "WHERE conductor.conductor_id = $conductor_id";
 
         $consulta = "
             SELECT $campos_select
             FROM $tabla_principal
             $where
+            LIMIT 1
         ";
 
         $result = mysqli_query($this->cnx_db, $consulta);
@@ -162,6 +160,9 @@ public function Get_token_usuario_movil($conductor_id) {
         if (!$fila) {
             throw new Exception('No se encontró token de notificación.');
         }
+
+        // Para debug, luego eliminar
+        // echo "CONSULTA SQL: " . $consulta . "<br>";
 
         return $fila;
 
