@@ -8,14 +8,15 @@ require_once './../config/jwt_config.php';
 require_once './../config/jwt_utils.php';
 
 // Verificar token JWT
-$headers = getallheaders();
-if (!isset($headers['Authorization'])) {
+$headers = array_change_key_case(getallheaders(), CASE_LOWER);
+
+if (!isset($headers['authorization'])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Token no proporcionado']);
     exit;
 }
 
-$authHeader = $headers['Authorization'];
+$authHeader = $headers['authorization'];
 if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Formato de token inválido']);

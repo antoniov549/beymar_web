@@ -26,15 +26,17 @@ function verificarToken($token) {
     }
 }
 
-// Obtener token del encabezado Authorization
-$headers = getallheaders();
-if (!isset($headers['Authorization'])) {
+
+// Verificar token JWT
+$headers = array_change_key_case(getallheaders(), CASE_LOWER);
+
+if (!isset($headers['authorization'])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Token no proporcionado']);
     exit;
 }
 
-if (!preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
+if (!preg_match('/Bearer\s(\S+)/', $headers['authorization'], $matches)) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Formato de token inválido']);
     exit;

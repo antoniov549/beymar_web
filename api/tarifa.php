@@ -26,8 +26,10 @@ function verificarToken($token) {
     }
 }
 
-// Obtener token del header Authorization
-$headers = getallheaders();
+
+// Verificar token JWT
+$headers = array_change_key_case(getallheaders(), CASE_LOWER);
+
 if (!isset($headers['Authorization'])) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Token no proporcionado']);
