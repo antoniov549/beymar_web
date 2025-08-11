@@ -43,7 +43,7 @@
                         <h5 class="name">
                           <a href="/meta/mis_datos/"><?php echo $user_name; ?></a>
                         </h5>
-                        <span class="email"><?php echo $role; ?></span>
+                        <span class="email"><?php echo $rol_id; ?></span>
                       </div>
                     </div>
                     <div class="account-dropdown__body">
@@ -52,23 +52,9 @@
                           <i class="zmdi zmdi-account"></i>Cuenta
                         </a>
                       </div>
-                      <?php if ($nivel == 1): ?>
-                     <!--  <div class="account-dropdown__item">
-                        <a href="/meta/mis_datos/">
-                          <i class="zmdi zmdi-settings"></i>Configuración
-                        </a>
-                      </div>
-                      <div class="account-dropdown__item">
-                        <a href="/meta/users/">
-                          <i class="zmdi zmdi-accounts"></i>Administración Usuarios
-                        </a>
-                      </div>
-                      <div class="account-dropdown__item">
-                        <a href="/meta/notificacion_/">
-                          <i class="zmdi zmdi-notifications"></i>Notificaciones
-                        </a>
-                      </div> -->
-                      <?php endif; ?>
+                  
+                     
+                    
                     </div>
                     <div class="account-dropdown__footer">
                       <a href="../pages/sign-in.php?logout">

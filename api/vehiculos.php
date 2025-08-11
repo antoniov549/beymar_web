@@ -43,11 +43,13 @@ $conn->set_charset("utf8");
 
 // Consulta JOIN para obtener los datos del vehículo del usuario autenticado
 $sql = "
-SELECT v.*
-FROM usuarios u
-JOIN conductores c ON u.usuario_id = c.usuario_id
-JOIN vehiculos v ON c.vehiculo_id = v.vehiculo_id
-WHERE u.correo = ?
+SELECT 
+vehiculo.*
+FROM beymar_travel.vehiculo_conductor as cv 
+INNER JOIN conductores as conductor on conductor.conductor_id = cv.conductor_id
+INNER JOIN vehiculos as vehiculo on vehiculo.vehiculo_id = cv.vehiculo_id
+INNER JOIN usuarios as usuario on conductor.usuario_id = usuario.usuario_id
+WHERE fecha_desasignacion is NULL AND usuario.correo = ?
 ";
 
 $stmt = $conn->prepare($sql);
@@ -65,7 +67,6 @@ if ($row = $result->fetch_assoc()) {
             'placas' => $row['placas'],
             'capacidad' => $row['capacidad'],
             'tipo' => $row['tipo'],
-            'documentacion_id' => $row['documentacion_id'],
             'estado' => $row['estado']
         ]
     ]);

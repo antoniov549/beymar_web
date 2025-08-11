@@ -17,7 +17,6 @@ $nombre = $_SESSION['nombre'];
 $apellido = $_SESSION['apellido'];
 $correo = $_SESSION['correo'];
 $rol_id = $_SESSION['rol_id'];
-$role = $_SESSION['role'];
 $estado = $_SESSION['estado'];
 $user_login_status = $_SESSION['user_login_status'];
  
