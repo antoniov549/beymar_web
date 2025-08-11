@@ -50,16 +50,44 @@ if (!$decoded) {
 }
 
 // Obtener usuario_id desde el token
-$conductor_id = null;
+$usuario_id = null;
 if (is_object($decoded) && property_exists($decoded, 'data') && property_exists($decoded->data, 'usuario_id')) {
-    $conductor_id = $decoded->data->usuario_id;
+    $usuario_id = $decoded->data->usuario_id;
 }
 
-if (!$conductor_id) {
+if (!$usuario_id) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'El token no contiene un usuario válido']);
     exit;
 }
+
+// Conectar a la BD
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+if ($conn->connect_errno) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos']);
+    exit;
+}
+$conn->set_charset("utf8");
+
+// Buscar conductor_id correspondiente al usuario_id
+$sqlConductor = "SELECT conductor_id FROM conductores WHERE usuario_id = ?";
+$stmtConductor = $conn->prepare($sqlConductor);
+$stmtConductor->bind_param("i", $usuario_id);
+$stmtConductor->execute();
+$resultConductor = $stmtConductor->get_result();
+
+if ($resultConductor->num_rows === 0) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'No existe conductor asociado a este usuario']);
+    $stmtConductor->close();
+    $conn->close();
+    exit;
+}
+
+$rowConductor = $resultConductor->fetch_assoc();
+$conductor_id = $rowConductor['conductor_id'];
+$stmtConductor->close();
 
 // Obtener datos del POST
 $data = json_decode(file_get_contents("php://input"), true);
@@ -72,15 +100,6 @@ if (!isset($data['viaje_id']) || empty($data['viaje_id'])) {
 $viaje_id = intval($data['viaje_id']);
 $fecha_actual = date('Y-m-d H:i:s');
 
-// Conectar a la BD
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
-if ($conn->connect_errno) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error de conexión a la base de datos']);
-    exit;
-}
-$conn->set_charset("utf8");
-
 // Verificar que el viaje pertenece al conductor y obtener estado actual
 $sqlCheck = "SELECT estado FROM viajes WHERE viaje_id = ? AND conductor_id = ?";
 $stmtCheck = $conn->prepare($sqlCheck);
@@ -90,7 +109,7 @@ $result = $stmtCheck->get_result();
 
 if ($result->num_rows === 0) {
     http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'No tienes permiso para modificar este viaje']);
+    echo json_encode(['success' => false, 'message' => "No tienes permiso para modificar este viaje [$viaje_id] con conductor [$conductor_id]"]);
     $stmtCheck->close();
     $conn->close();
     exit;
@@ -110,8 +129,7 @@ if ($estado_actual === 'Inicio_viaje') {
     $nuevo_estado = 'Finalizado';
     $fecha_fin = $fecha_actual;
 } elseif ($estado_actual === 'Finalizado') {
-    // No actualiza estado si ya está finalizado
-    $nuevo_estado = null;
+    $nuevo_estado = null; // Ya finalizado, no se actualiza
 } else {
     echo json_encode(['success' => false, 'message' => "Estado actual '{$estado_actual}' no es válido para actualizar"]);
     $conn->close();
@@ -157,6 +175,8 @@ $conn->close();
 // Responder con mensaje y lista de viajes pendientes
 echo json_encode([
     'success' => true,
-    'message' => $nuevo_estado !== null ? "Estado del viaje actualizado a '{$nuevo_estado}' correctamente" : "No se actualizó el estado (ya finalizado o no aplicable)",
+    'message' => $nuevo_estado !== null 
+        ? "Estado del viaje actualizado a '{$nuevo_estado}' correctamente" 
+        : "No se actualizó el estado (ya finalizado o no aplicable)",
     'viajes_pendientes' => $viajes
 ]);
