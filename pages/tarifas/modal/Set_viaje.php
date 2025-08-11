@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-var_dump($_REQUEST);
+// var_dump($_REQUEST);
 
 include_once('../../../class/Cls_tarifas.php');
 $Cls_tarifas = new Cls_tarifas();
@@ -69,6 +69,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 		>
 
 		<input type="hidden" name="vehiculo" value="<?= htmlspecialchars($vehiculo) ?>" >
+		<input type="hidden" name="option" >
 
 		
 		
@@ -107,22 +108,15 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 
 
-		<div class="row">
-				<div class="form-group m-b-10 col-6 ">
-					<label for="fecha_inicio" class=" control-label">Fecha Inicial</label>
-					<div class="">		  
-					  <input class="form-control" type="datetime-local"  id="fecha_inicio" required >
-					</div>
-				</div>
-
-				<div class="form-group m-b-10 col-6">
-					<label for="lastname" class=" control-label">Apellidos</label>
-					<div class="">
-					  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellidos" required>
-					</div>
-				</div>
-
+	
+		<div class="form-group m-b-10  ">
+			<label for="fecha_inicio" class=" control-label">Fecha Inicial</label>
+			<div class="">		  
+			  <input class="form-control" type="datetime-local"  id="fecha_inicio" required >
+			</div>
 		</div>
+
+
 
 		<div class="form-group m-b-10 ">
 			<label for="conductores" class=" control-label">Conductor: </label>
@@ -135,13 +129,6 @@ if ($result && mysqli_num_rows($result) > 0) {
 		</div>
 
 
-
-
-		
-
-
-
-
 		</form>
 
 
@@ -151,23 +138,104 @@ if ($result && mysqli_num_rows($result) > 0) {
 </div>
 <div class="modal-footer">
 	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-	<button type="button" class="btn btn-danger accion"><i class="zmdi zmdi-delete"></i>&nbsp;BORRAR</button>
+	<button type="button" class="btn btn-primary guardar"><i class="zmdi zmdi-delete"></i>&nbsp;BORRAR</button>
 </div>	
 
 
 <script type="text/javascript">
 $(document).ready(function() {
+
+///establecer el valir minimo para las fechas
+setMinFecha();
+
 ///////////////////////////////////////////
-
-
-
-
 $(document).on('change', '#cantidad_personas', function(event) {
     var cantidad_personas = $("#cantidad_personas option:selected").val();
     var vehiculo = $('input[name="vehiculo"]').val();
     console.log(cantidad_personas + ' ' + vehiculo);
     Imprime_conductores('conductores', vehiculo, cantidad_personas);
 });
+
+
+// 
+$('.guardar').on('click', function () {
+	// 
+    const form = document.getElementById("form-add_users");
+    // Valida los campos requeridos del formulario
+    if (!form.checkValidity()) {
+        form.reportValidity(); // Muestra mensajes de error nativos del navegador
+        return; // No continúa si no pasa la validación
+    }
+    // 
+	$('input[name="option"]').val('insert');
+    // Confirmación del usuario
+    let respuesta_confirmacion_envio = confirm("SE ENVIARAN LOS DATOS!!");
+    if (respuesta_confirmacion_envio) {
+        var formData = new FormData(form);
+        EnviarDatos(formData);
+    }
+});
+///////////////////////////////////////////
+
+
+///////////////////////////////////////////
+});
+
+
+
+function setMinFecha() {
+
+	  const inputFecha = document.getElementById('fecha_inicio');
+
+	const now = new Date();
+
+	// Formatear a YYYY-MM-DDTHH:mm (sin segundos)
+	const year = now.getFullYear();
+	const month = String(now.getMonth() + 1).padStart(2, '0');
+	const day = String(now.getDate()).padStart(2, '0');
+	const hours = String(now.getHours()).padStart(2, '0');
+	const minutes = String(now.getMinutes()).padStart(2, '0');
+
+	const minFecha = `${year}-${month}-${day}T${hours}:${minutes}`;
+	inputFecha.min = minFecha;
+}
+
+
+
+////FUNCION PARA REDIRIGIR EL OBJETO DEL FORMULARIO A OTRO PHP Y MOSTRAR LO EN EL MODAL
+function EnviarDatos( formData ){
+//alert("SE ENVIARON LOS DATOS");
+    // AJAX request
+	  $('#loaderContainer').show();
+    $.ajax({
+        url: 'tarifas/aplicarMovimiento.php',
+        type: "post",
+        dataType: "html",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(response){ 
+          // Add response in Modal body
+          //modal-xl_center_scrollable
+
+          $('#modal-lg_sub').modal('hide');
+          $('#modal-xl_scrollable').modal('hide');
+          
+          // Add response in Modal body
+          $('#modal-lg .modal-content').html(response);
+          // Display Modal
+          $('#modal-lg').modal('show'); 
+          $('#loaderContainer').hide();
+
+        },
+          error: function () {
+             $('#loaderContainer').hide();
+          }
+    });
+
+}
+// 
 
 // 
 function Imprime_conductores(contenedor, tipo_vehiculo, cantidad_personas) {
@@ -198,12 +266,4 @@ function Imprime_conductores(contenedor, tipo_vehiculo, cantidad_personas) {
 }
 
 
-//$(".table-resultados").stickyTableHeaders();
-$('.accion').on('click', function() {
-	alert(`esto es el alert`);
-});
-
-
-///////////////////////////////////////////
-});
 </script>

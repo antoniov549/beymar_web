@@ -223,7 +223,7 @@ public function Get_informacion_tarifas($zona, $vehiculo, $viaje, $minimo, $maxi
             $order
         ";
         
-         echo "<div class='alert alert-success' role='alert'>Get_informacion_tarifas:<br>".$consulta."</div>";
+         // echo "<div class='alert alert-success' role='alert'>Get_informacion_tarifas:<br>".$consulta."</div>";
         //$result=mysqli_fetch_assoc(mysqli_query($this->cnx_db,$consulta));
         $result=mysqli_query($this->cnx_db,$consulta);
         return $result;
