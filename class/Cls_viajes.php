@@ -73,7 +73,7 @@ public function insertar_viaje($conductor_id, $tarifa_id, $pasajero, $fecha_inic
 
         return [
             'success' => true,
-            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente.</div> <pre>'.print_r($token).'</pre>',
+            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente.</div> <pre>',
             'id_insertado' => $nuevo_id
         ];
 
