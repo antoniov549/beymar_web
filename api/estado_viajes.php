@@ -143,6 +143,18 @@ if ($nuevo_estado !== null && $nuevo_estado !== $estado_actual) {
         $sqlUpdate = "UPDATE viajes SET estado = ?, fecha_fin = ? WHERE viaje_id = ? AND conductor_id = ?";
         $stmtUpdate = $conn->prepare($sqlUpdate);
         $stmtUpdate->bind_param("ssii", $nuevo_estado, $fecha_fin, $viaje_id, $conductor_id);
+
+        // Actualizar el estado del conductor
+        $sqlUpdateConductor = "UPDATE conductores 
+                               SET estado = ? 
+                               WHERE conductor_id = ?";
+        $stmtConductor = $conn->prepare($sqlUpdateConductor);
+        $estadoConductor = 'libre';
+        $stmtConductor->bind_param("si", $estadoConductor, $conductor_id);
+        $stmtConductor->execute();
+
+
+
     } else {
         $sqlUpdate = "UPDATE viajes SET estado = ? WHERE viaje_id = ? AND conductor_id = ?";
         $stmtUpdate = $conn->prepare($sqlUpdate);

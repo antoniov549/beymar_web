@@ -1,7 +1,6 @@
 <?php
-// Mostrar errores (para desarrollo)
+// Mostrar errores (solo en desarrollo)
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Encabezados
@@ -17,7 +16,9 @@ require_once './../vendor/autoload.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-// Función para verificar el token JWT
+// -------------------------
+// Función para verificar JWT
+// -------------------------
 function verificarToken($token) {
     try {
         return JWT::decode($token, new Key(JWT_SECRET_KEY, 'HS256'));
@@ -26,31 +27,29 @@ function verificarToken($token) {
     }
 }
 
-
-// Verificar token JWT
+// -------------------------
+// Verificación de token
+// -------------------------
 $headers = array_change_key_case(getallheaders(), CASE_LOWER);
 
-if (!isset($headers['authorization'])) {
+if (empty($headers['authorization']) || !preg_match('/Bearer\s(\S+)/', $headers['authorization'], $matches)) {
     http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Token no proporcionado']);
+    echo json_encode(['success' => false, 'message' => 'Token no proporcionado o formato inválido']);
     exit;
 }
 
-if (!preg_match('/Bearer\s(\S+)/', $headers['authorization'], $matches)) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Formato de token inválido']);
-    exit;
-}
-
-$token = $matches[1];
-$decoded = verificarToken($token);
-if (!$decoded) {
+$decoded = verificarToken($matches[1]);
+if (!$decoded || !isset($decoded->data->usuario_id)) {
     http_response_code(401);
     echo json_encode(['success' => false, 'message' => 'Token inválido o expirado']);
     exit;
 }
 
+$usuario_id = (int) $decoded->data->usuario_id;
+
+// -------------------------
 // Conexión a la base de datos
+// -------------------------
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 if ($conn->connect_errno) {
     http_response_code(500);
@@ -59,25 +58,45 @@ if ($conn->connect_errno) {
 }
 $conn->set_charset("utf8");
 
-// Consulta para traer viajes con estado 'Inicio_viaje' o 'En_camino'
-$sql = "SELECT * FROM viajes WHERE estado IN ('Inicio_viaje', 'En_camino') ORDER BY fecha_inicio DESC";
-$result = $conn->query($sql);
+// -------------------------
+// Obtener conductor_id
+// -------------------------
+$sqlConductor = "SELECT conductor_id FROM conductores WHERE usuario_id = ?";
+$stmtConductor = $conn->prepare($sqlConductor);
+$stmtConductor->bind_param("i", $usuario_id);
+$stmtConductor->execute();
+$resultConductor = $stmtConductor->get_result();
 
-// Comprobación de la consulta
-if (!$result) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error en la consulta SQL']);
+if ($resultConductor->num_rows === 0) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'No existe conductor asociado a este usuario']);
+    $stmtConductor->close();
     $conn->close();
     exit;
 }
 
-// Procesar resultados
-$viajes = [];
-while ($row = $result->fetch_assoc()) {
-    $viajes[] = $row;
-}
+$conductor_id = (int) $resultConductor->fetch_assoc()['conductor_id'];
+$stmtConductor->close();
 
-// Enviar respuesta
+// -------------------------
+// Obtener viajes activos
+// -------------------------
+$sqlViajes = "SELECT * 
+              FROM viajes 
+              WHERE estado IN ('Inicio_viaje', 'En_camino') 
+              AND conductor_id = ? 
+              ORDER BY fecha_inicio DESC";
+$stmtViajes = $conn->prepare($sqlViajes);
+$stmtViajes->bind_param("i", $conductor_id);
+$stmtViajes->execute();
+$resultViajes = $stmtViajes->get_result();
+
+$viajes = $resultViajes->fetch_all(MYSQLI_ASSOC);
+$stmtViajes->close();
+
+// -------------------------
+// Respuesta JSON
+// -------------------------
 echo json_encode([
     'success' => true,
     'message' => 'Viajes obtenidos correctamente',
@@ -85,4 +104,3 @@ echo json_encode([
 ]);
 
 $conn->close();
-?>
