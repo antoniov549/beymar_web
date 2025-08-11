@@ -69,11 +69,11 @@ public function insertar_viaje($conductor_id, $tarifa_id, $pasajero, $fecha_inic
         $title = 'Tienes un nuevo viaje';
         $message = 'Conductor insertado correctamente.';
 
-        $this->sendNotification($conductor_id, $message, $title);
+        $token=$this->sendNotification($conductor_id, $message, $title);
 
         return [
             'success' => true,
-            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente.</div>',
+            'message' => '<div class="alert alert-success" role="alert">Conductor insertado correctamente. '.$token.' </div>',
             'id_insertado' => $nuevo_id
         ];
 
