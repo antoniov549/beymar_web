@@ -312,5 +312,39 @@ public function Get_conductores_por_estado_vehiculo($estado, $tipo_vehiculo, $ca
 }
 
 
+
+public function Update_estado_conductor($estado, $conductor_id) {
+  try {
+    
+    $estado = mysqli_real_escape_string($this->cnx_db, strip_tags($estado, ENT_QUOTES));
+    $conductor_id = (int) $conductor_id;
+    
+    $sql = "
+      UPDATE conductores
+      SET estado = ?
+      WHERE conductor_id = ? 
+    ";
+
+    $stmt = $this->cnx_db->prepare($sql);
+    $stmt->bind_param('si', $estado, $conductor_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+      return ['success' => true, 'message' => '<div class="alert alert-success" role="alert">Conductor asignado correctamente.</div>'];
+    } else {
+      return ['success' => false, 'message' => 'No se pudo asignado (ya podría estar asignado).'];
+    }
+
+  } catch (Exception $e) {
+    return ['success' => false, 'message' => $e->getMessage()];
+  }
+}
+// 
+
+
+
+
+
+
 ///////////////////////////////
 } ///FIN DEL CLASE

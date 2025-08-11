@@ -157,7 +157,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 </div>
 <div class="modal-footer">
 	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-	<button type="button" class="btn btn-primary guardar"><i class="zmdi zmdi-delete"></i>&nbsp;BORRAR</button>
+	<button type="button" class="btn btn-primary guardar"><i class="zmdi zmdi-delete"></i>&nbsp;Guardar</button>
 </div>	
 
 

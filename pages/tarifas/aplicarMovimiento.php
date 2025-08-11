@@ -3,12 +3,16 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-var_dump($_REQUEST);
+// var_dump($_REQUEST);
 
 include('../../includes/comprobar_logeo.php');
 
 include_once('../../class/Cls_viajes.php');
 $Cls_viajes = new Cls_viajes();
+
+include_once('../../class/Cls_conductores.php');
+$Cls_conductores = new Cls_conductores();
+
 
 /// option
 $option = isset($_REQUEST['option']) ? trim((string)$_REQUEST['option']) : '';
@@ -47,9 +51,15 @@ $fecha_mysql = $date->format('Y-m-d H:i:s');
 	<?php 
 		switch ($option) {
 			case 'insert':
-
 					$respuesta=$Cls_viajes->insertar_viaje( $conductores, $tarifa_id, $pasajero, $fecha_mysql, 'Inicio_viaje' );
-					echo $respuesta['message'];
+					
+					if ($respuesta['success']) {
+						$respuesta=$Cls_conductores->Update_estado_conductor('activo', $conductores);
+						echo $respuesta['message'];
+					}else{
+						echo $respuesta['message'];
+					}
+
 				break;
 
 			
